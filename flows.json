@@ -1,1 +1,207 @@
-[]
+[
+    {
+        "id": "f140a926713e3a4c",
+        "type": "tab",
+        "label": "Вечер",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "78f643a337253a04",
+        "type": "tab",
+        "label": "Утро",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "7968c6b6.08c848",
+        "type": "server",
+        "name": "Home Assistant",
+        "addon": true,
+        "rejectUnauthorizedCerts": true,
+        "ha_boolean": "",
+        "connectionDelay": false,
+        "cacheJson": false,
+        "heartbeat": false,
+        "heartbeatInterval": "",
+        "statusSeparator": "",
+        "enableGlobalContextStore": false
+    },
+    {
+        "id": "48ed7437f9c7d3bd",
+        "type": "server-state-changed",
+        "z": "f140a926713e3a4c",
+        "name": "Освещение улицы из зала низкое?",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "outputs": 2,
+        "exposeAsEntityConfig": "",
+        "entityId": "sensor.0xa4c138ccfeaeb6d9_illuminance",
+        "entityIdType": "exact",
+        "outputInitially": false,
+        "stateType": "num",
+        "ifState": "2700",
+        "ifStateType": "num",
+        "ifStateOperator": "lte",
+        "outputOnlyOnStateChange": true,
+        "for": "5",
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": true,
+        "ignoreCurrentStateUnavailable": true,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "eventData"
+            },
+            {
+                "property": "topic",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "triggerId"
+            }
+        ],
+        "x": 200,
+        "y": 80,
+        "wires": [
+            [
+                "012747a5ad4fa51f"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "ac747b8b9dac5ce7",
+        "type": "inject",
+        "z": "f140a926713e3a4c",
+        "name": "В 19:30",
+        "props": [],
+        "repeat": "",
+        "crontab": "30 19 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 280,
+        "y": 160,
+        "wires": [
+            [
+                "012747a5ad4fa51f"
+            ]
+        ]
+    },
+    {
+        "id": "012747a5ad4fa51f",
+        "type": "api-call-service",
+        "z": "f140a926713e3a4c",
+        "name": "Закрыть шторы в зале и спальне",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "cover",
+        "service": "close_cover",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "cover.0x54ef44100044454b",
+            "cover.0x54ef441000070ae3"
+        ],
+        "data": "",
+        "dataType": "jsonata",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 540,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0c06cb86c4ddc8f3",
+        "type": "inject",
+        "z": "78f643a337253a04",
+        "name": "В 09:00",
+        "props": [],
+        "repeat": "",
+        "crontab": "00 09 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 140,
+        "y": 60,
+        "wires": [
+            [
+                "9c73ccec8acb6476",
+                "c7ff670e0495f846"
+            ]
+        ]
+    },
+    {
+        "id": "c7ff670e0495f846",
+        "type": "api-call-service",
+        "z": "78f643a337253a04",
+        "name": "Открыть шторы в зале на 75",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "cover",
+        "service": "set_cover_position",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "cover.0x54ef441000070ae3"
+        ],
+        "data": "{\"position\":75}",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 410,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9c73ccec8acb6476",
+        "type": "api-call-service",
+        "z": "78f643a337253a04",
+        "name": "Открыть шторы в стальне",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "cover",
+        "service": "open_cover",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "cover.0x54ef44100044454b"
+        ],
+        "data": "",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 400,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    }
+]
