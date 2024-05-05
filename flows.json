@@ -16,6 +16,47 @@
         "env": []
     },
     {
+        "id": "a71775bf701198d6",
+        "type": "tab",
+        "label": "Отслеживание состояния сервера",
+        "disabled": false,
+        "info": "Меняет флаг 'enableFlow'",
+        "env": []
+    },
+    {
+        "id": "fb9ffeb46b14d217",
+        "type": "subflow",
+        "name": "Управление автоматизацией",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 80,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "90d5ac19450415d4"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 560,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "90d5ac19450415d4",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
         "id": "7968c6b6.08c848",
         "type": "server",
         "name": "Home Assistant",
@@ -28,6 +69,24 @@
         "heartbeatInterval": "",
         "statusSeparator": "",
         "enableGlobalContextStore": false
+    },
+    {
+        "id": "90d5ac19450415d4",
+        "type": "function",
+        "z": "fb9ffeb46b14d217",
+        "name": "Яввляется ли текущий сервер главным",
+        "func": "if (global.get('enableFlow')) {\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 80,
+        "wires": [
+            []
+        ]
     },
     {
         "id": "48ed7437f9c7d3bd",
@@ -78,7 +137,7 @@
         "y": 80,
         "wires": [
             [
-                "012747a5ad4fa51f"
+                "c45c3e41fdbf54fe"
             ],
             []
         ]
@@ -98,7 +157,7 @@
         "y": 160,
         "wires": [
             [
-                "012747a5ad4fa51f"
+                "c45c3e41fdbf54fe"
             ]
         ]
     },
@@ -124,10 +183,23 @@
         "mustacheAltTags": false,
         "outputProperties": [],
         "queue": "none",
-        "x": 540,
+        "x": 800,
         "y": 120,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "c45c3e41fdbf54fe",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "f140a926713e3a4c",
+        "name": "",
+        "x": 500,
+        "y": 120,
+        "wires": [
+            [
+                "012747a5ad4fa51f"
+            ]
         ]
     },
     {
@@ -142,11 +214,10 @@
         "onceDelay": 0.1,
         "topic": "",
         "x": 140,
-        "y": 60,
+        "y": 80,
         "wires": [
             [
-                "9c73ccec8acb6476",
-                "c7ff670e0495f846"
+                "df3de0a48e89f470"
             ]
         ]
     },
@@ -171,7 +242,7 @@
         "mustacheAltTags": false,
         "outputProperties": [],
         "queue": "none",
-        "x": 410,
+        "x": 670,
         "y": 40,
         "wires": [
             []
@@ -198,10 +269,520 @@
         "mustacheAltTags": false,
         "outputProperties": [],
         "queue": "none",
-        "x": 400,
+        "x": 660,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "df3de0a48e89f470",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "78f643a337253a04",
+        "name": "",
+        "x": 380,
+        "y": 80,
+        "wires": [
+            [
+                "c7ff670e0495f846",
+                "9c73ccec8acb6476"
+            ]
+        ]
+    },
+    {
+        "id": "f12c9cb9cb5b76f2",
+        "type": "trigger-state",
+        "z": "a71775bf701198d6",
+        "name": "Изменение состояния главного сервера",
+        "server": "7968c6b6.08c848",
+        "version": 4,
+        "inputs": 0,
+        "outputs": 2,
+        "exposeAsEntityConfig": "",
+        "entityId": "binary_sensor.main_control",
+        "entityIdType": "exact",
+        "debugEnabled": false,
+        "constraints": [],
+        "customOutputs": [],
+        "outputInitially": false,
+        "stateType": "habool",
+        "enableInput": false,
+        "x": 1000,
+        "y": 60,
+        "wires": [
+            [
+                "f3259336c77a306a"
+            ],
+            [
+                "f3259336c77a306a"
+            ]
+        ]
+    },
+    {
+        "id": "f3259336c77a306a",
+        "type": "function",
+        "z": "a71775bf701198d6",
+        "name": "Обновить флаг enableFlow",
+        "func": "global.set(\"enableFlow\", msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1400,
+        "y": 100,
+        "wires": [
+            [
+                "07ac0919a977d6b2"
+            ]
+        ]
+    },
+    {
+        "id": "54c12555514743bc",
+        "type": "inject",
+        "z": "a71775bf701198d6",
+        "name": "Инициализация флага",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 670,
+        "y": 140,
+        "wires": [
+            [
+                "10dd4a898c0d7f27"
+            ]
+        ]
+    },
+    {
+        "id": "10dd4a898c0d7f27",
+        "type": "function",
+        "z": "a71775bf701198d6",
+        "name": "Получить актуальный статус сервера",
+        "func": "return {payload: \"on\" === global.get(\"homeassistant.homeAssistant.states['binary_sensor.main_control'].state\")};",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1000,
+        "y": 140,
+        "wires": [
+            [
+                "f3259336c77a306a"
+            ]
+        ]
+    },
+    {
+        "id": "3f75ae96483cc776",
+        "type": "http request",
+        "z": "a71775bf701198d6",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 950,
+        "y": 380,
+        "wires": [
+            [
+                "b9d3d0080c013777"
+            ]
+        ]
+    },
+    {
+        "id": "2adf81679e1af383",
+        "type": "inject",
+        "z": "a71775bf701198d6",
+        "name": "",
+        "props": [],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 90,
+        "y": 320,
+        "wires": [
+            [
+                "511c624bbda3b751"
+            ]
+        ]
+    },
+    {
+        "id": "d3c525ee01e5e40f",
+        "type": "function",
+        "z": "a71775bf701198d6",
+        "name": "Формирование URL к главному серверу",
+        "func": "msg.url = \"http://\" + global.get(\"homeassistant.homeAssistant.states['sensor.main_control'].state\") + \":8123/manifest.json\"\nmsg.requestTimeout = 1000;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 340,
+        "wires": [
+            [
+                "3f75ae96483cc776"
+            ]
+        ]
+    },
+    {
+        "id": "511c624bbda3b751",
+        "type": "api-current-state",
+        "z": "a71775bf701198d6",
+        "name": "Является ли сервер главным?",
+        "server": "7968c6b6.08c848",
+        "version": 3,
+        "outputs": 2,
+        "halt_if": "true",
+        "halt_if_type": "bool",
+        "halt_if_compare": "is",
+        "entity_id": "binary_sensor.main_control",
+        "state_type": "habool",
+        "blockInputOverrides": false,
+        "outputProperties": [],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 330,
+        "y": 320,
+        "wires": [
+            [],
+            [
+                "f96f60b67e4adc0a"
+            ]
+        ]
+    },
+    {
+        "id": "b9d3d0080c013777",
+        "type": "switch",
+        "z": "a71775bf701198d6",
+        "name": "",
+        "property": "statusCode",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "neq",
+                "v": "200",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "200",
+                "vt": "str"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 2,
+        "x": 950,
+        "y": 420,
+        "wires": [
+            [
+                "3db19d284cc307dc"
+            ],
+            [
+                "a3458d4d95d639fb"
+            ]
+        ]
+    },
+    {
+        "id": "3db19d284cc307dc",
+        "type": "change",
+        "z": "a71775bf701198d6",
+        "name": "Установить флаг в true",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1190,
+        "y": 400,
+        "wires": [
+            [
+                "d16c0c8f3583de03",
+                "f3259336c77a306a"
+            ]
+        ]
+    },
+    {
+        "id": "60b55a1ac29fdcb4",
+        "type": "http request",
+        "z": "a71775bf701198d6",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1930,
+        "y": 420,
+        "wires": [
+            [
+                "c3b9765303efbc93"
+            ]
+        ]
+    },
+    {
+        "id": "2c951e38bf501615",
+        "type": "function",
+        "z": "a71775bf701198d6",
+        "name": "Формирование URL к главному серверу",
+        "func": "msg.url = \"http://\" + global.get(\"homeassistant.homeAssistant.states['sensor.main_control'].state\") + \":8123/manifest.json\";\nmsg.requestTimeout = 1000;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1680,
+        "y": 420,
+        "wires": [
+            [
+                "60b55a1ac29fdcb4"
+            ]
+        ]
+    },
+    {
+        "id": "c3b9765303efbc93",
+        "type": "switch",
+        "z": "a71775bf701198d6",
+        "name": "",
+        "property": "statusCode",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "200",
+                "vt": "str"
+            },
+            {
+                "t": "neq",
+                "v": "200",
+                "vt": "str"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 2,
+        "x": 2090,
+        "y": 420,
+        "wires": [
+            [
+                "ee575a55cbdfa113"
+            ],
+            [
+                "d16c0c8f3583de03"
+            ]
+        ]
+    },
+    {
+        "id": "d16c0c8f3583de03",
+        "type": "delay",
+        "z": "a71775bf701198d6",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "3",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1430,
+        "y": 420,
+        "wires": [
+            [
+                "2c951e38bf501615"
+            ]
+        ]
+    },
+    {
+        "id": "ee575a55cbdfa113",
+        "type": "delay",
+        "z": "a71775bf701198d6",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "15",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 2260,
+        "y": 400,
+        "wires": [
+            [
+                "465e88bc03e9014e"
+            ]
+        ]
+    },
+    {
+        "id": "465e88bc03e9014e",
+        "type": "change",
+        "z": "a71775bf701198d6",
+        "name": "Установить флан в false",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 2470,
+        "y": 400,
+        "wires": [
+            [
+                "f3259336c77a306a",
+                "a3458d4d95d639fb"
+            ]
+        ]
+    },
+    {
+        "id": "07ac0919a977d6b2",
+        "type": "function",
+        "z": "a71775bf701198d6",
+        "name": "Подготовить список автоматизаций",
+        "func": "var main_automation_entity_ids = Object.keys(global.get(\"homeassistant\").homeAssistant.states)\n    .filter(key => key.endsWith('_main'));\n\nreturn {\n    \"payload\": {\n        \"domain\": \"homeassistant\",\n        \"service\": msg.payload ? \"turn_on\" : \"turn_off\",\n        \"target\": {\n            \"entity_id\": main_automation_entity_ids\n        }\n    }\n};",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1690,
+        "y": 100,
+        "wires": [
+            [
+                "82e2c23c02379590"
+            ]
+        ]
+    },
+    {
+        "id": "82e2c23c02379590",
+        "type": "api-call-service",
+        "z": "a71775bf701198d6",
+        "name": "Вкл/Выкл автоматизации",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "homeassistant",
+        "service": "turn_off",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [],
+        "data": "",
+        "dataType": "jsonata",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1980,
         "y": 100,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "f96f60b67e4adc0a",
+        "type": "trigger",
+        "z": "a71775bf701198d6",
+        "name": "",
+        "op1": "1",
+        "op2": "0",
+        "op1type": "str",
+        "op2type": "str",
+        "duration": "0",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "ms",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 600,
+        "y": 340,
+        "wires": [
+            [
+                "d3c525ee01e5e40f"
+            ]
+        ]
+    },
+    {
+        "id": "a3458d4d95d639fb",
+        "type": "change",
+        "z": "a71775bf701198d6",
+        "name": "Сброс блока",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "reset",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1270,
+        "y": 580,
+        "wires": [
+            [
+                "f96f60b67e4adc0a"
+            ]
         ]
     }
 ]
