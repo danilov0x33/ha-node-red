@@ -56,6 +56,38 @@
         "env": []
     },
     {
+        "id": "466e0d281ab19f6c",
+        "type": "tab",
+        "label": "Нотификация об присутствии у двери",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "960438d555ebc641",
+        "type": "tab",
+        "label": "Алиса. Подготовка ко сну",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "757f206067d1fb16",
+        "type": "tab",
+        "label": "Алиса. Утро",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "09e11bcbc86ad243",
+        "type": "tab",
+        "label": "Климат. Ванная",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "fb9ffeb46b14d217",
         "type": "subflow",
         "name": "Управление автоматизацией",
@@ -101,6 +133,28 @@
                 "wires": [
                     {
                         "id": "b3265112953dba4c"
+                    }
+                ]
+            }
+        ],
+        "out": [],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "9915fb82b236611c",
+        "type": "subflow",
+        "name": "Отправить фото в Telegram",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 80,
+                "y": 100,
+                "wires": [
+                    {
+                        "id": "4e56c0c6aab13f4d"
                     }
                 ]
             }
@@ -183,6 +237,51 @@
         "queue": "none",
         "x": 700,
         "y": 60,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4e56c0c6aab13f4d",
+        "type": "function",
+        "z": "9915fb82b236611c",
+        "name": "Подготовка данных для отправки сообщения в Telegram",
+        "func": "return {\n    payload: {\n        data: {\n            target: global.get(\"secrets\")['telegram_danilov_info_group_id'],\n            url: msg.payload.url,\n            caption: msg.payload.caption\n        }\n    }\n};",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 100,
+        "wires": [
+            [
+                "100d16144b2c2e79"
+            ]
+        ]
+    },
+    {
+        "id": "100d16144b2c2e79",
+        "type": "api-call-service",
+        "z": "9915fb82b236611c",
+        "name": "Отправить сообщение в Telegram",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "telegram_bot",
+        "service": "send_photo",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [],
+        "data": "",
+        "dataType": "jsonata",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 740,
+        "y": 100,
         "wires": [
             []
         ]
@@ -410,100 +509,6 @@
         ]
     },
     {
-        "id": "0c06cb86c4ddc8f3",
-        "type": "inject",
-        "z": "78f643a337253a04",
-        "name": "В 09:00",
-        "props": [],
-        "repeat": "",
-        "crontab": "00 09 * * *",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "x": 140,
-        "y": 80,
-        "wires": [
-            [
-                "df3de0a48e89f470"
-            ]
-        ]
-    },
-    {
-        "id": "c7ff670e0495f846",
-        "type": "api-call-service",
-        "z": "78f643a337253a04",
-        "name": "Открыть шторы в зале на 70",
-        "server": "7968c6b6.08c848",
-        "version": 5,
-        "debugenabled": false,
-        "domain": "cover",
-        "service": "set_cover_position",
-        "areaId": [],
-        "deviceId": [],
-        "entityId": [
-            "cover.0x54ef441000070ae3"
-        ],
-        "data": "{\"position\":70}",
-        "dataType": "json",
-        "mergeContext": "",
-        "mustacheAltTags": false,
-        "outputProperties": [],
-        "queue": "none",
-        "x": 650,
-        "y": 40,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "9c73ccec8acb6476",
-        "type": "api-call-service",
-        "z": "78f643a337253a04",
-        "name": "Открыть шторы в стальне",
-        "server": "7968c6b6.08c848",
-        "version": 5,
-        "debugenabled": false,
-        "domain": "cover",
-        "service": "open_cover",
-        "areaId": [],
-        "deviceId": [],
-        "entityId": [
-            "cover.0x54ef44100044454b"
-        ],
-        "data": "",
-        "dataType": "json",
-        "mergeContext": "",
-        "mustacheAltTags": false,
-        "outputProperties": [],
-        "queue": "none",
-        "x": 640,
-        "y": 120,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "df3de0a48e89f470",
-        "type": "subflow:fb9ffeb46b14d217",
-        "z": "78f643a337253a04",
-        "name": "",
-        "env": [
-            {
-                "name": "entity_id",
-                "value": "switch.morning_node_red_flow",
-                "type": "str"
-            }
-        ],
-        "x": 350,
-        "y": 80,
-        "wires": [
-            [
-                "c7ff670e0495f846",
-                "9c73ccec8acb6476"
-            ]
-        ]
-    },
-    {
         "id": "165c151e158613bb",
         "type": "inject",
         "z": "78f643a337253a04",
@@ -515,7 +520,7 @@
         "onceDelay": 0.1,
         "topic": "",
         "x": 140,
-        "y": 360,
+        "y": 260,
         "wires": [
             [
                 "d9e04a9a75014a91"
@@ -544,7 +549,7 @@
         "outputProperties": [],
         "queue": "none",
         "x": 650,
-        "y": 320,
+        "y": 220,
         "wires": [
             []
         ]
@@ -571,7 +576,7 @@
         "outputProperties": [],
         "queue": "none",
         "x": 660,
-        "y": 400,
+        "y": 300,
         "wires": [
             []
         ]
@@ -588,7 +593,7 @@
         "onceDelay": 0.1,
         "topic": "",
         "x": 140,
-        "y": 220,
+        "y": 120,
         "wires": [
             [
                 "3a067d3ac25e68e4"
@@ -617,7 +622,7 @@
         "outputProperties": [],
         "queue": "none",
         "x": 650,
-        "y": 180,
+        "y": 80,
         "wires": [
             []
         ]
@@ -644,7 +649,7 @@
         "outputProperties": [],
         "queue": "none",
         "x": 660,
-        "y": 260,
+        "y": 160,
         "wires": [
             []
         ]
@@ -662,7 +667,7 @@
             }
         ],
         "x": 350,
-        "y": 220,
+        "y": 120,
         "wires": [
             [
                 "97ac725f38409921",
@@ -683,7 +688,7 @@
             }
         ],
         "x": 350,
-        "y": 360,
+        "y": 260,
         "wires": [
             [
                 "bec7e277c722f8e3",
@@ -1471,11 +1476,11 @@
         "for": "0",
         "forType": "num",
         "forUnits": "minutes",
-        "ignorePrevStateNull": true,
-        "ignorePrevStateUnknown": true,
-        "ignorePrevStateUnavailable": true,
-        "ignoreCurrentStateUnknown": false,
-        "ignoreCurrentStateUnavailable": false,
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": true,
+        "ignoreCurrentStateUnavailable": true,
         "outputProperties": [],
         "x": 170,
         "y": 160,
@@ -1529,7 +1534,8 @@
         "y": 160,
         "wires": [
             [
-                "5c47f08ca55a7f7d"
+                "5c47f08ca55a7f7d",
+                "8a09df66df09d25e"
             ]
         ]
     },
@@ -1540,10 +1546,10 @@
         "name": "Получить последнее кол-во стирок",
         "server": "7968c6b6.08c848",
         "version": 3,
-        "outputs": 1,
-        "halt_if": "",
-        "halt_if_type": "str",
-        "halt_if_compare": "is",
+        "outputs": 2,
+        "halt_if": "0",
+        "halt_if_type": "num",
+        "halt_if_compare": "gte",
         "entity_id": "number.washing_started_counter",
         "state_type": "num",
         "blockInputOverrides": false,
@@ -1567,8 +1573,10 @@
         "y": 160,
         "wires": [
             [
-                "67cca26538ccacf0"
-            ]
+                "67cca26538ccacf0",
+                "025d282df80d2ffb"
+            ],
+            []
         ]
     },
     {
@@ -1653,10 +1661,10 @@
         "forType": "num",
         "forUnits": "minutes",
         "ignorePrevStateNull": false,
-        "ignorePrevStateUnknown": true,
-        "ignorePrevStateUnavailable": true,
-        "ignoreCurrentStateUnknown": false,
-        "ignoreCurrentStateUnavailable": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": true,
+        "ignoreCurrentStateUnavailable": true,
         "outputProperties": [
             {
                 "property": "payload",
@@ -1684,59 +1692,65 @@
         "wires": []
     },
     {
-        "id": "79a5d473f4b6c5dd",
-        "type": "inject",
-        "z": "b6a0c09cbb5afeb4",
-        "name": "В 12:00",
-        "props": [],
-        "repeat": "",
-        "crontab": "00 12 * * *",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "x": 140,
-        "y": 180,
-        "wires": [
-            [
-                "c623bd2b8eacce76"
-            ]
-        ]
+        "id": "025d282df80d2ffb",
+        "type": "debug",
+        "z": "6164e426732213ef",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 900,
+        "y": 320,
+        "wires": []
     },
     {
-        "id": "cd791fc7a44cc1a0",
-        "type": "inject",
-        "z": "b6a0c09cbb5afeb4",
-        "name": "В 16:00",
-        "props": [],
-        "repeat": "",
-        "crontab": "00 16 * * *",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "x": 140,
-        "y": 220,
-        "wires": [
-            [
-                "c623bd2b8eacce76"
-            ]
-        ]
+        "id": "8a09df66df09d25e",
+        "type": "debug",
+        "z": "6164e426732213ef",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1120,
+        "y": 320,
+        "wires": []
     },
     {
-        "id": "fe1fd4189256885a",
+        "id": "4be2ddf19c094ca5",
         "type": "inject",
-        "z": "b6a0c09cbb5afeb4",
-        "name": "В 20:00",
-        "props": [],
+        "z": "6164e426732213ef",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
         "repeat": "",
-        "crontab": "00 20 * * *",
+        "crontab": "",
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "x": 140,
-        "y": 260,
+        "payload": "",
+        "payloadType": "date",
+        "x": 300,
+        "y": 240,
         "wires": [
             [
-                "c623bd2b8eacce76"
+                "ba85147591068793"
             ]
         ]
     },
@@ -1897,63 +1911,6 @@
         "y": 140,
         "wires": [
             []
-        ]
-    },
-    {
-        "id": "15d3fc2d232fc3af",
-        "type": "inject",
-        "z": "b6a0c09cbb5afeb4",
-        "name": "В 11:45",
-        "props": [],
-        "repeat": "",
-        "crontab": "45 11 * * *",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "x": 140,
-        "y": 920,
-        "wires": [
-            [
-                "85aee8399e7a5a2b"
-            ]
-        ]
-    },
-    {
-        "id": "1073ec03683c3dd4",
-        "type": "inject",
-        "z": "b6a0c09cbb5afeb4",
-        "name": "В 15:45",
-        "props": [],
-        "repeat": "",
-        "crontab": "45 15 * * *",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "x": 140,
-        "y": 960,
-        "wires": [
-            [
-                "85aee8399e7a5a2b"
-            ]
-        ]
-    },
-    {
-        "id": "19808f3c96a04e20",
-        "type": "inject",
-        "z": "b6a0c09cbb5afeb4",
-        "name": "В 19:45",
-        "props": [],
-        "repeat": "",
-        "crontab": "45 19 * * *",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "x": 140,
-        "y": 1000,
-        "wires": [
-            [
-                "85aee8399e7a5a2b"
-            ]
         ]
     },
     {
@@ -2145,7 +2102,7 @@
         "id": "8ff49ffb172025df",
         "type": "ha-wait-until",
         "z": "b6a0c09cbb5afeb4",
-        "name": "Ожидать возвращение на базу",
+        "name": "Ожидать отправление до мусорки",
         "server": "7968c6b6.08c848",
         "version": 2,
         "outputs": 2,
@@ -2153,7 +2110,7 @@
         "entityIdFilterType": "exact",
         "property": "state",
         "comparator": "is",
-        "value": "returning",
+        "value": "zone_cleaning",
         "valueType": "str",
         "timeout": "2",
         "timeoutType": "num",
@@ -2163,11 +2120,11 @@
         "outputProperties": [],
         "entityLocation": "data",
         "entityLocationType": "none",
-        "x": 990,
+        "x": 980,
         "y": 460,
         "wires": [
             [
-                "b709c059a3f080be"
+                "5aeb3a6165ad3d54"
             ],
             []
         ]
@@ -2194,7 +2151,7 @@
         "outputProperties": [],
         "queue": "none",
         "x": 1070,
-        "y": 500,
+        "y": 540,
         "wires": [
             [
                 "e339ee3b015a89d2"
@@ -2216,7 +2173,7 @@
         "entityId": [
             "vacuum.dreame_bot_l10_pro"
         ],
-        "data": "{\"zone\":[-4430, 765, -4297, 892]}",
+        "data": "{\"zone\":[-4411, 712, -4247, 834]}",
         "dataType": "json",
         "mergeContext": "",
         "mustacheAltTags": false,
@@ -2267,7 +2224,7 @@
         "z": "b6a0c09cbb5afeb4",
         "name": "",
         "x": 980,
-        "y": 600,
+        "y": 640,
         "wires": []
     },
     {
@@ -2290,7 +2247,7 @@
         "to": "",
         "reg": false,
         "x": 970,
-        "y": 560,
+        "y": 600,
         "wires": [
             [
                 "035e886c06b39002"
@@ -2483,6 +2440,1073 @@
         "wires": [
             [
                 "db7fc75af1e22a72"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "5aeb3a6165ad3d54",
+        "type": "delay",
+        "z": "b6a0c09cbb5afeb4",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "40",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1040,
+        "y": 500,
+        "wires": [
+            [
+                "b709c059a3f080be"
+            ]
+        ]
+    },
+    {
+        "id": "3d097e57c29d9429",
+        "type": "cronplus",
+        "z": "b6a0c09cbb5afeb4",
+        "name": "В 12:00/16:00/20:00",
+        "outputField": "payload",
+        "timeZone": "",
+        "storeName": "",
+        "commandResponseMsgOutput": "output1",
+        "defaultLocation": "",
+        "defaultLocationType": "default",
+        "outputs": 1,
+        "options": [
+            {
+                "name": "schedule1",
+                "topic": "topic1",
+                "payloadType": "default",
+                "payload": "",
+                "expressionType": "cron",
+                "expression": "0 0 12 ? * * *",
+                "location": "",
+                "offset": "0",
+                "solarType": "all",
+                "solarEvents": "sunrise,sunset"
+            },
+            {
+                "name": "schedule2",
+                "topic": "topic2",
+                "payloadType": "default",
+                "payload": "",
+                "expressionType": "cron",
+                "expression": "0 0 16 ? * * *",
+                "location": "",
+                "offset": "0",
+                "solarType": "all",
+                "solarEvents": "sunrise,sunset"
+            },
+            {
+                "name": "schedule3",
+                "topic": "topic3",
+                "payloadType": "default",
+                "payload": "",
+                "expressionType": "cron",
+                "expression": "0 0 20 ? * * *",
+                "location": "",
+                "offset": "0",
+                "solarType": "all",
+                "solarEvents": "sunrise,sunset"
+            }
+        ],
+        "x": 140,
+        "y": 220,
+        "wires": [
+            [
+                "c623bd2b8eacce76"
+            ]
+        ]
+    },
+    {
+        "id": "18d9a30f0a4b5a1a",
+        "type": "cronplus",
+        "z": "b6a0c09cbb5afeb4",
+        "name": "В 11:45/15:45/19:45",
+        "outputField": "payload",
+        "timeZone": "",
+        "storeName": "",
+        "commandResponseMsgOutput": "output1",
+        "defaultLocation": "",
+        "defaultLocationType": "default",
+        "outputs": 1,
+        "options": [
+            {
+                "name": "schedule1",
+                "topic": "topic1",
+                "payloadType": "default",
+                "payload": "",
+                "expressionType": "cron",
+                "expression": "0 45 11 ? * * *",
+                "location": "",
+                "offset": "0",
+                "solarType": "all",
+                "solarEvents": "sunrise,sunset"
+            },
+            {
+                "name": "schedule2",
+                "topic": "topic2",
+                "payloadType": "default",
+                "payload": "",
+                "expressionType": "cron",
+                "expression": "0 45 15 ? * * *",
+                "location": "",
+                "offset": "0",
+                "solarType": "all",
+                "solarEvents": "sunrise,sunset"
+            },
+            {
+                "name": "schedule3",
+                "topic": "topic3",
+                "payloadType": "default",
+                "payload": "",
+                "expressionType": "cron",
+                "expression": "0 45 19 ? * * *",
+                "location": "",
+                "offset": "0",
+                "solarType": "all",
+                "solarEvents": "sunrise,sunset"
+            }
+        ],
+        "x": 120,
+        "y": 960,
+        "wires": [
+            [
+                "85aee8399e7a5a2b"
+            ]
+        ]
+    },
+    {
+        "id": "6ca910413d166cfc",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "466e0d281ab19f6c",
+        "name": "",
+        "x": 550,
+        "y": 100,
+        "wires": [
+            [
+                "91d1060e671944b2",
+                "32bcf43ccdb35c76"
+            ]
+        ]
+    },
+    {
+        "id": "68d8fdbb95453063",
+        "type": "trigger-state",
+        "z": "466e0d281ab19f6c",
+        "name": "Изменилось ли изображение у глазка?",
+        "server": "7968c6b6.08c848",
+        "version": 4,
+        "inputs": 0,
+        "outputs": 2,
+        "exposeAsEntityConfig": "",
+        "entityId": "sensor.dp2c_j21918665_last_alarm_pic",
+        "entityIdType": "exact",
+        "debugEnabled": false,
+        "constraints": [
+            {
+                "targetType": "entity_id",
+                "targetValue": "binary_sensor.dp2c_j21918665_motion_trigger",
+                "propertyType": "current_state",
+                "propertyValue": "new_state.state",
+                "comparatorType": "is",
+                "comparatorValueDatatype": "str",
+                "comparatorValue": "on"
+            }
+        ],
+        "customOutputs": [],
+        "outputInitially": false,
+        "stateType": "str",
+        "enableInput": false,
+        "x": 220,
+        "y": 120,
+        "wires": [
+            [
+                "6ca910413d166cfc"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "2b18a5de35c37220",
+        "type": "subflow:9915fb82b236611c",
+        "z": "466e0d281ab19f6c",
+        "name": "",
+        "x": 1200,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "91d1060e671944b2",
+        "type": "function",
+        "z": "466e0d281ab19f6c",
+        "name": "Подготовка данных для отправки в TG",
+        "func": "var ip_address = global.get(\"homeassistant.homeAssistant.states['sensor.local_ip'].state\");\nvar img_url = global.get(\"homeassistant.homeAssistant.states['image.dp2c_j21918665_last_motion_image'].attributes.entity_picture\");\n\nmsg.payload = {\n    url: \"http://\" + ip_address + \":8123\" + img_url,\n    capture: \"Кто-то у входной двери\"\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 900,
+        "y": 60,
+        "wires": [
+            [
+                "2b18a5de35c37220"
+            ]
+        ]
+    },
+    {
+        "id": "05f6fedcaaf27d9d",
+        "type": "api-call-service",
+        "z": "466e0d281ab19f6c",
+        "name": "Скачать фото",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "downloader",
+        "service": "download_file",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [],
+        "data": "",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1140,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "32bcf43ccdb35c76",
+        "type": "function",
+        "z": "466e0d281ab19f6c",
+        "name": "Подготовка данных для скачивания",
+        "func": "return {\n    payload:{\n        data: {\n            url: global.get(\"homeassistant.homeAssistant.states['sensor.dp2c_j21918665_last_alarm_pic'].state\"),\n            subdir: \"camera\",\n            overwrite: true,\n            filename: \"dp2c_j21918665_last.jpg\"\n        }\n    }\n};",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 120,
+        "wires": [
+            [
+                "05f6fedcaaf27d9d"
+            ]
+        ]
+    },
+    {
+        "id": "89fd77b541b4e2e8",
+        "type": "server-events",
+        "z": "960438d555ebc641",
+        "name": "Спокойной ночи",
+        "server": "7968c6b6.08c848",
+        "version": 3,
+        "exposeAsEntityConfig": "",
+        "eventType": "yandex_intent",
+        "eventData": "{\"text\":\"Спокойной ночи\"}",
+        "waitForRunning": true,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "eventData"
+            }
+        ],
+        "x": 160,
+        "y": 160,
+        "wires": [
+            [
+                "b49f646bdeabb5b9"
+            ]
+        ]
+    },
+    {
+        "id": "a899e079554f67b1",
+        "type": "api-current-state",
+        "z": "960438d555ebc641",
+        "name": "Есть ли движение в коридоре?",
+        "server": "7968c6b6.08c848",
+        "version": 3,
+        "outputs": 2,
+        "halt_if": "on",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "entity_id": "binary_sensor.0x00158d0003f1029f_occupancy",
+        "state_type": "str",
+        "blockInputOverrides": false,
+        "outputProperties": [],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 850,
+        "y": 160,
+        "wires": [
+            [],
+            [
+                "eb35e52fb9a47895"
+            ]
+        ]
+    },
+    {
+        "id": "eb35e52fb9a47895",
+        "type": "api-call-service",
+        "z": "960438d555ebc641",
+        "name": "Выключить свет в коридоре",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "homeassistant",
+        "service": "turn_off",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.corridor_light_group"
+        ],
+        "data": "",
+        "dataType": "jsonata",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1140,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "848620170f64e025",
+        "type": "api-call-service",
+        "z": "960438d555ebc641",
+        "name": "Выключить свет и устройства в зале",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "homeassistant",
+        "service": "turn_off",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.yeelight_arwen_550c",
+            "switch.tuya_switch_002_1",
+            "media_player.danilov_samsung_au7570_50_tv",
+            "light.0x00158d0007504210"
+        ],
+        "data": "",
+        "dataType": "jsonata",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1150,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "dfa6fe9c381e7e03",
+        "type": "api-call-service",
+        "z": "960438d555ebc641",
+        "name": "Выключить свет и устройства на кухне",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "homeassistant",
+        "service": "turn_off",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "media_player.km6",
+            "light.yeelight_450c_0"
+        ],
+        "data": "",
+        "dataType": "jsonata",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1180,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "618d0883f33ee9b6",
+        "type": "api-call-service",
+        "z": "960438d555ebc641",
+        "name": "Выключить свет и устройства на лоджии",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "homeassistant",
+        "service": "turn_off",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.0xa4c1383efb0fff4f"
+        ],
+        "data": "",
+        "dataType": "jsonata",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1190,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7cc7a014e268bff9",
+        "type": "api-call-service",
+        "z": "960438d555ebc641",
+        "name": "Сказать спокойной ночи",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "media_player",
+        "service": "play_media",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "media_player.yandex_station_mini_001"
+        ],
+        "data": "{\"media_content_type\": \"text\", \"media_content_id\": \"Спокойной Вам ночи\"}",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1130,
+        "y": 360,
+        "wires": [
+            [
+                "a28fe92de7d3ab73"
+            ]
+        ]
+    },
+    {
+        "id": "33c42dd5ce2ed7c6",
+        "type": "server-events",
+        "z": "960438d555ebc641",
+        "name": "Настя идет спать",
+        "server": "7968c6b6.08c848",
+        "version": 3,
+        "exposeAsEntityConfig": "",
+        "eventType": "yandex_intent",
+        "eventData": "{\"text\":\"Настя идет спать\"}",
+        "waitForRunning": true,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "eventData"
+            }
+        ],
+        "x": 170,
+        "y": 560,
+        "wires": [
+            [
+                "574a0668898cc267"
+            ]
+        ]
+    },
+    {
+        "id": "e1c51783f3905033",
+        "type": "api-call-service",
+        "z": "960438d555ebc641",
+        "name": "Выключить свет и устройства в зале",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "homeassistant",
+        "service": "turn_off",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.yeelight_arwen_550c",
+            "media_player.danilov_samsung_au7570_50_tv",
+            "light.0x00158d0007504210"
+        ],
+        "data": "",
+        "dataType": "jsonata",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1170,
+        "y": 540,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "87d1e032284520c5",
+        "type": "api-call-service",
+        "z": "960438d555ebc641",
+        "name": "Вкличить ночник у кровати",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "homeassistant",
+        "service": "turn_on",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "switch.tuya_switch_002_1"
+        ],
+        "data": "",
+        "dataType": "jsonata",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1140,
+        "y": 580,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a28fe92de7d3ab73",
+        "type": "api-current-state",
+        "z": "960438d555ebc641",
+        "name": "Открыто ли окно в зале?",
+        "server": "7968c6b6.08c848",
+        "version": 3,
+        "outputs": 2,
+        "halt_if": "on",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "entity_id": "binary_sensor.0x00158d000123129b_contact",
+        "state_type": "str",
+        "blockInputOverrides": false,
+        "outputProperties": [],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 1370,
+        "y": 360,
+        "wires": [
+            [],
+            [
+                "19b6f7fa68acfdb4"
+            ]
+        ]
+    },
+    {
+        "id": "19b6f7fa68acfdb4",
+        "type": "api-call-service",
+        "z": "960438d555ebc641",
+        "name": "Сказать открыть окно",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "media_player",
+        "service": "play_media",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "media_player.yandex_station_mini_001"
+        ],
+        "data": "{\"media_content_type\": \"text\", \"media_content_id\": \"Незабудьте открыть окно перед сном\"}",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1620,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b49f646bdeabb5b9",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "960438d555ebc641",
+        "name": "",
+        "env": [
+            {
+                "name": "entity_id",
+                "value": "switch.morning_node_red_flow",
+                "type": "str"
+            }
+        ],
+        "x": 410,
+        "y": 160,
+        "wires": [
+            [
+                "848620170f64e025",
+                "a899e079554f67b1",
+                "dfa6fe9c381e7e03",
+                "618d0883f33ee9b6",
+                "7cc7a014e268bff9"
+            ]
+        ]
+    },
+    {
+        "id": "574a0668898cc267",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "960438d555ebc641",
+        "name": "",
+        "env": [
+            {
+                "name": "entity_id",
+                "value": "switch.morning_node_red_flow",
+                "type": "str"
+            }
+        ],
+        "x": 410,
+        "y": 560,
+        "wires": [
+            [
+                "a899e079554f67b1",
+                "dfa6fe9c381e7e03",
+                "618d0883f33ee9b6",
+                "7cc7a014e268bff9",
+                "e1c51783f3905033",
+                "87d1e032284520c5"
+            ]
+        ]
+    },
+    {
+        "id": "c461e523786f3609",
+        "type": "server-events",
+        "z": "757f206067d1fb16",
+        "name": "Доброе утро",
+        "server": "7968c6b6.08c848",
+        "version": 3,
+        "exposeAsEntityConfig": "",
+        "eventType": "yandex_intent",
+        "eventData": "{\"text\":\"Доброе утро\"}",
+        "waitForRunning": true,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "eventData"
+            }
+        ],
+        "x": 190,
+        "y": 160,
+        "wires": [
+            [
+                "b2578436770d61e8"
+            ]
+        ]
+    },
+    {
+        "id": "429fa9ee5d92e3ed",
+        "type": "api-call-service",
+        "z": "757f206067d1fb16",
+        "name": "Открыть шторы в зале на 70",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "cover",
+        "service": "set_cover_position",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "cover.0x54ef441000070ae3"
+        ],
+        "data": "{\"position\":70}",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 750,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4c2c1ee6e293f747",
+        "type": "api-call-service",
+        "z": "757f206067d1fb16",
+        "name": "Открыть шторы в стальне",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "cover",
+        "service": "open_cover",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "cover.0x54ef44100044454b"
+        ],
+        "data": "",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 740,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b2578436770d61e8",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "757f206067d1fb16",
+        "name": "",
+        "env": [
+            {
+                "name": "entity_id",
+                "value": "switch.morning_node_red_flow",
+                "type": "str"
+            }
+        ],
+        "x": 410,
+        "y": 160,
+        "wires": [
+            [
+                "429fa9ee5d92e3ed",
+                "4c2c1ee6e293f747",
+                "df969e013d055e9b"
+            ]
+        ]
+    },
+    {
+        "id": "df969e013d055e9b",
+        "type": "api-call-service",
+        "z": "757f206067d1fb16",
+        "name": "Сказать доброе утро",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "media_player",
+        "service": "play_media",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "media_player.yandex_station_mini_001"
+        ],
+        "data": "{\"media_content_type\":\"text\",\"media_content_id\":\"Доброе утро\"}",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 720,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "de63302a90b99058",
+        "type": "subflow:849de7d11f2ee5ff",
+        "z": "09e11bcbc86ad243",
+        "name": "",
+        "x": 1515,
+        "y": 120,
+        "wires": [],
+        "icon": "font-awesome/fa-paper-plane",
+        "l": false
+    },
+    {
+        "id": "92322ea9a78d7272",
+        "type": "change",
+        "z": "09e11bcbc86ad243",
+        "name": "\"Большая влажность в ванной\"",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Большая влажность в ванной",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1350,
+        "y": 120,
+        "wires": [
+            [
+                "de63302a90b99058"
+            ]
+        ]
+    },
+    {
+        "id": "381e2efa5294c122",
+        "type": "trigger",
+        "z": "09e11bcbc86ad243",
+        "name": "Ждать 10 мин",
+        "op1": "",
+        "op2": "0",
+        "op1type": "nul",
+        "op2type": "str",
+        "duration": "10",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "min",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 720,
+        "y": 140,
+        "wires": [
+            [
+                "f1e304d1b0b977a2"
+            ]
+        ]
+    },
+    {
+        "id": "0841c50696101b1f",
+        "type": "server-state-changed",
+        "z": "09e11bcbc86ad243",
+        "name": "Влажность в ванной высокая?",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "outputs": 2,
+        "exposeAsEntityConfig": "",
+        "entityId": "sensor.0x00124b00251fa5d7_humidity",
+        "entityIdType": "exact",
+        "outputInitially": false,
+        "stateType": "num",
+        "ifState": "60",
+        "ifStateType": "num",
+        "ifStateOperator": "gt",
+        "outputOnlyOnStateChange": false,
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": false,
+        "ignoreCurrentStateUnavailable": false,
+        "outputProperties": [],
+        "x": 190,
+        "y": 160,
+        "wires": [
+            [
+                "cb5d673897768109"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "f1e304d1b0b977a2",
+        "type": "api-current-state",
+        "z": "09e11bcbc86ad243",
+        "name": "Все еще высокая?",
+        "server": "7968c6b6.08c848",
+        "version": 3,
+        "outputs": 2,
+        "halt_if": "60",
+        "halt_if_type": "num",
+        "halt_if_compare": "gt",
+        "entity_id": "sensor.0x00124b00251fa5d7_humidity",
+        "state_type": "num",
+        "blockInputOverrides": false,
+        "outputProperties": [],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 910,
+        "y": 140,
+        "wires": [
+            [
+                "4c0ec1ce4a8d94d3"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "cb5d673897768109",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "09e11bcbc86ad243",
+        "name": "",
+        "x": 490,
+        "y": 140,
+        "wires": [
+            [
+                "381e2efa5294c122"
+            ]
+        ]
+    },
+    {
+        "id": "69b67810e6e863eb",
+        "type": "server-state-changed",
+        "z": "09e11bcbc86ad243",
+        "name": "Влажность в ванной в норме?",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "outputs": 2,
+        "exposeAsEntityConfig": "",
+        "entityId": "sensor.0x00124b00251fa5d7_humidity",
+        "entityIdType": "exact",
+        "outputInitially": false,
+        "stateType": "num",
+        "ifState": "50",
+        "ifStateType": "num",
+        "ifStateOperator": "lte",
+        "outputOnlyOnStateChange": false,
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": false,
+        "ignoreCurrentStateUnavailable": false,
+        "outputProperties": [],
+        "x": 190,
+        "y": 280,
+        "wires": [
+            [
+                "7a017e729774af10"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "7a017e729774af10",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "09e11bcbc86ad243",
+        "name": "",
+        "x": 490,
+        "y": 260,
+        "wires": [
+            [
+                "c737869d893dcb5f"
+            ]
+        ]
+    },
+    {
+        "id": "4c0ec1ce4a8d94d3",
+        "type": "trigger",
+        "z": "09e11bcbc86ad243",
+        "name": "",
+        "op1": "1",
+        "op2": "",
+        "op1type": "str",
+        "op2type": "nul",
+        "duration": "0",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "ms",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 1120,
+        "y": 120,
+        "wires": [
+            [
+                "92322ea9a78d7272"
+            ]
+        ]
+    },
+    {
+        "id": "c737869d893dcb5f",
+        "type": "trigger",
+        "z": "09e11bcbc86ad243",
+        "name": "Ждать 10 мин",
+        "op1": "",
+        "op2": "0",
+        "op1type": "nul",
+        "op2type": "str",
+        "duration": "10",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "min",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 720,
+        "y": 260,
+        "wires": [
+            [
+                "2c16b301dc98b9ec"
+            ]
+        ]
+    },
+    {
+        "id": "2c16b301dc98b9ec",
+        "type": "api-current-state",
+        "z": "09e11bcbc86ad243",
+        "name": "Все еще в норме?",
+        "server": "7968c6b6.08c848",
+        "version": 3,
+        "outputs": 2,
+        "halt_if": "50",
+        "halt_if_type": "num",
+        "halt_if_compare": "lte",
+        "entity_id": "sensor.0x00124b00251fa5d7_humidity",
+        "state_type": "num",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "reset",
+                "propertyType": "msg",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 910,
+        "y": 260,
+        "wires": [
+            [
+                "4c0ec1ce4a8d94d3"
             ],
             []
         ]
