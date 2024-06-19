@@ -180,7 +180,25 @@
             }
         ],
         "out": [],
-        "env": [],
+        "env": [
+            {
+                "name": "message",
+                "type": "str",
+                "value": "",
+                "ui": {
+                    "icon": "font-awesome/fa-file-text-o",
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "str",
+                            "num",
+                            "bool",
+                            "env"
+                        ]
+                    }
+                }
+            }
+        ],
         "meta": {},
         "color": "#3FADB5",
         "icon": "font-awesome/fa-paper-plane"
@@ -260,7 +278,7 @@
         "type": "function",
         "z": "849de7d11f2ee5ff",
         "name": "Подготовка данных для отправки сообщения в Telegram",
-        "func": "return {\n    payload: {\n        data: {\n            target: global.get(\"secrets\")['telegram_danilov_info_group_id'],\n            message: msg.payload\n        }\n    }\n};",
+        "func": "var message = msg.payload === undefined ? env.get(\"message\") : msg.payload;\nreturn {\n    payload: {\n        data: {\n            target: global.get(\"secrets\")['telegram_danilov_info_group_id'],\n            message: message\n        }\n    }\n};",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -760,40 +778,11 @@
         ]
     },
     {
-        "id": "f12c9cb9cb5b76f2",
-        "type": "trigger-state",
-        "z": "a71775bf701198d6",
-        "name": "Изменение состояния главного сервера",
-        "server": "7968c6b6.08c848",
-        "version": 4,
-        "inputs": 0,
-        "outputs": 2,
-        "exposeAsEntityConfig": "",
-        "entityId": "binary_sensor.main_control",
-        "entityIdType": "exact",
-        "debugEnabled": false,
-        "constraints": [],
-        "customOutputs": [],
-        "outputInitially": false,
-        "stateType": "habool",
-        "enableInput": false,
-        "x": 1000,
-        "y": 60,
-        "wires": [
-            [
-                "f3259336c77a306a"
-            ],
-            [
-                "f3259336c77a306a"
-            ]
-        ]
-    },
-    {
         "id": "f3259336c77a306a",
         "type": "function",
         "z": "a71775bf701198d6",
         "name": "Обновить флаг enableFlow",
-        "func": "global.set(\"enableFlow\", msg.payload);\nreturn msg;",
+        "func": "global.set(\"enableFlow\", msg.payload);\nvar fill = msg.payload ? \"green\" : \"red\"\nnode.status({fill:fill,shape:\"dot\"});\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -968,38 +957,12 @@
         "y": 420,
         "wires": [
             [
-                "3db19d284cc307dc"
+                "80cd93c684fd2740",
+                "d16c0c8f3583de03",
+                "815e78bf8cd165b3"
             ],
             [
                 "31427102c35c1e63"
-            ]
-        ]
-    },
-    {
-        "id": "3db19d284cc307dc",
-        "type": "change",
-        "z": "a71775bf701198d6",
-        "name": "Установить флаг в true",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "true",
-                "tot": "bool"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 1190,
-        "y": 400,
-        "wires": [
-            [
-                "d16c0c8f3583de03",
-                "f3259336c77a306a"
             ]
         ]
     },
@@ -1019,8 +982,8 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 1930,
-        "y": 420,
+        "x": 1670,
+        "y": 400,
         "wires": [
             [
                 "c3b9765303efbc93"
@@ -1039,8 +1002,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1680,
-        "y": 420,
+        "x": 1420,
+        "y": 400,
         "wires": [
             [
                 "60b55a1ac29fdcb4"
@@ -1069,8 +1032,8 @@
         "checkall": "false",
         "repair": false,
         "outputs": 2,
-        "x": 2090,
-        "y": 420,
+        "x": 1830,
+        "y": 400,
         "wires": [
             [
                 "ee575a55cbdfa113"
@@ -1097,8 +1060,8 @@
         "drop": false,
         "allowrate": false,
         "outputs": 1,
-        "x": 1430,
-        "y": 420,
+        "x": 1170,
+        "y": 400,
         "wires": [
             [
                 "2c951e38bf501615"
@@ -1122,39 +1085,11 @@
         "drop": false,
         "allowrate": false,
         "outputs": 1,
-        "x": 2260,
-        "y": 400,
+        "x": 2020,
+        "y": 380,
         "wires": [
             [
-                "465e88bc03e9014e"
-            ]
-        ]
-    },
-    {
-        "id": "465e88bc03e9014e",
-        "type": "change",
-        "z": "a71775bf701198d6",
-        "name": "Установить флан в false",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "false",
-                "tot": "bool"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 2470,
-        "y": 400,
-        "wires": [
-            [
-                "f3259336c77a306a",
-                "31427102c35c1e63"
+                "db057c60686f7590"
             ]
         ]
     },
@@ -1247,6 +1182,136 @@
                 "f96f60b67e4adc0a"
             ]
         ]
+    },
+    {
+        "id": "15fc056d4f705689",
+        "type": "server-state-changed",
+        "z": "a71775bf701198d6",
+        "name": "Изменение состояния главного сервера",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "outputs": 1,
+        "exposeAsEntityConfig": "",
+        "entityId": "binary_sensor.main_control",
+        "entityIdType": "exact",
+        "outputInitially": false,
+        "stateType": "habool",
+        "ifState": "",
+        "ifStateType": "str",
+        "ifStateOperator": "is",
+        "outputOnlyOnStateChange": false,
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": true,
+        "ignoreCurrentStateUnavailable": true,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            }
+        ],
+        "x": 1000,
+        "y": 60,
+        "wires": [
+            [
+                "f3259336c77a306a"
+            ]
+        ]
+    },
+    {
+        "id": "815e78bf8cd165b3",
+        "type": "subflow:849de7d11f2ee5ff",
+        "z": "a71775bf701198d6",
+        "name": "\"Основной сервер не доступен\"",
+        "env": [
+            {
+                "name": "message",
+                "value": "Основной сервер не доступен",
+                "type": "str"
+            }
+        ],
+        "x": 1240,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "80cd93c684fd2740",
+        "type": "api-call-service",
+        "z": "a71775bf701198d6",
+        "name": "Взять роль главного сервера на себя",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "switch",
+        "service": "turn_on",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "switch.main_control_mode"
+        ],
+        "data": "",
+        "dataType": "jsonata",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1250,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "db057c60686f7590",
+        "type": "api-call-service",
+        "z": "a71775bf701198d6",
+        "name": "Взять роль главного сервера на себя",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "switch",
+        "service": "turn_off",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "switch.main_control_mode"
+        ],
+        "data": "",
+        "dataType": "jsonata",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 2270,
+        "y": 380,
+        "wires": [
+            [
+                "31427102c35c1e63",
+                "12c404dda7d57b0f"
+            ]
+        ]
+    },
+    {
+        "id": "12c404dda7d57b0f",
+        "type": "subflow:849de7d11f2ee5ff",
+        "z": "a71775bf701198d6",
+        "name": "\"Основной сервер восстановился\"",
+        "env": [
+            {
+                "name": "message",
+                "value": "Основной сервер восстановился",
+                "type": "str"
+            }
+        ],
+        "x": 2590,
+        "y": 340,
+        "wires": []
     },
     {
         "id": "21575f7574b3b5e0",
