@@ -197,6 +197,14 @@
                         ]
                     }
                 }
+            },
+            {
+                "name": "static_message",
+                "type": "bool",
+                "value": "false",
+                "ui": {
+                    "type": "checkbox"
+                }
             }
         ],
         "meta": {},
@@ -278,7 +286,7 @@
         "type": "function",
         "z": "849de7d11f2ee5ff",
         "name": "Подготовка данных для отправки сообщения в Telegram",
-        "func": "var message = msg.payload === undefined ? env.get(\"message\") : msg.payload;\nreturn {\n    payload: {\n        data: {\n            target: global.get(\"secrets\")['telegram_danilov_info_group_id'],\n            message: message\n        }\n    }\n};",
+        "func": "var fromPayload = !env.get(\"static_message\") && msg.payload !== undefined;\nvar message = fromPayload ?  msg.payload : env.get(\"message\");\nreturn {\n    payload: {\n        data: {\n            target: global.get(\"secrets\")['telegram_danilov_info_group_id'],\n            message: message\n        }\n    }\n};",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -884,7 +892,7 @@
         "type": "function",
         "z": "a71775bf701198d6",
         "name": "Формирование URL к главному серверу",
-        "func": "msg.url = \"http://\" + global.get(\"homeassistant.homeAssistant.states['sensor.main_control'].state\") + \":8123/manifest.json\"\nmsg.requestTimeout = 1000;\nreturn msg;",
+        "func": "msg.url = \"http://\" + global.get(\"homeassistant.homeAssistant.states['sensor.main_control'].state\") + \":8123/manifest.json\"\nmsg.requestTimeout = 5000;\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -922,7 +930,7 @@
         "override_payload": "msg",
         "entity_location": "data",
         "override_data": "msg",
-        "x": 330,
+        "x": 310,
         "y": 320,
         "wires": [
             [],
@@ -995,7 +1003,7 @@
         "type": "function",
         "z": "a71775bf701198d6",
         "name": "Формирование URL к главному серверу",
-        "func": "msg.url = \"http://\" + global.get(\"homeassistant.homeAssistant.states['sensor.main_control'].state\") + \":8123/manifest.json\";\nmsg.requestTimeout = 1000;\nreturn msg;",
+        "func": "msg.url = \"http://\" + global.get(\"homeassistant.homeAssistant.states['sensor.main_control'].state\") + \":8123/manifest.json\";\nmsg.requestTimeout = 5000;\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1234,6 +1242,11 @@
                 "name": "message",
                 "value": "Основной сервер не доступен",
                 "type": "str"
+            },
+            {
+                "name": "static_message",
+                "type": "bool",
+                "value": "true"
             }
         ],
         "x": 1240,
@@ -1307,6 +1320,11 @@
                 "name": "message",
                 "value": "Основной сервер восстановился",
                 "type": "str"
+            },
+            {
+                "name": "static_message",
+                "type": "bool",
+                "value": "true"
             }
         ],
         "x": 2590,
