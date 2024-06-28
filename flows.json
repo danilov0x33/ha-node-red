@@ -421,6 +421,7 @@
         "areaId": [],
         "deviceId": [],
         "entityId": [
+            "cover.0x54ef441000a02f4e",
             "cover.0x54ef44100044454b",
             "cover.0x54ef441000070ae3"
         ],
@@ -654,6 +655,7 @@
         "areaId": [],
         "deviceId": [],
         "entityId": [
+            "cover.0x54ef441000a02f4e",
             "cover.0x54ef44100044454b"
         ],
         "data": "{\"position\":15}",
@@ -727,6 +729,7 @@
         "areaId": [],
         "deviceId": [],
         "entityId": [
+            "cover.0x54ef441000a02f4e",
             "cover.0x54ef44100044454b"
         ],
         "data": "{\"position\":25}",
@@ -892,7 +895,7 @@
         "type": "function",
         "z": "a71775bf701198d6",
         "name": "Формирование URL к главному серверу",
-        "func": "msg.url = \"http://\" + global.get(\"homeassistant.homeAssistant.states['sensor.main_control'].state\") + \":8123/manifest.json\"\nmsg.requestTimeout = 5000;\nreturn msg;",
+        "func": "msg.url = \"http://\" + global.get(\"homeassistant.homeAssistant.states['sensor.main_control'].state\") + \":8123/manifest.json\"\nmsg.requestTimeout = 7000;\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -965,9 +968,8 @@
         "y": 420,
         "wires": [
             [
-                "80cd93c684fd2740",
                 "d16c0c8f3583de03",
-                "815e78bf8cd165b3"
+                "d44580bd5a48d6c8"
             ],
             [
                 "31427102c35c1e63"
@@ -1003,7 +1005,7 @@
         "type": "function",
         "z": "a71775bf701198d6",
         "name": "Формирование URL к главному серверу",
-        "func": "msg.url = \"http://\" + global.get(\"homeassistant.homeAssistant.states['sensor.main_control'].state\") + \":8123/manifest.json\";\nmsg.requestTimeout = 5000;\nreturn msg;",
+        "func": "msg.url = \"http://\" + global.get(\"homeassistant.homeAssistant.states['sensor.main_control'].state\") + \":8123/manifest.json\";\nmsg.requestTimeout = 7000;\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1097,7 +1099,8 @@
         "y": 380,
         "wires": [
             [
-                "db057c60686f7590"
+                "10dd4a898c0d7f27",
+                "31427102c35c1e63"
             ]
         ]
     },
@@ -1233,103 +1236,31 @@
         ]
     },
     {
-        "id": "815e78bf8cd165b3",
-        "type": "subflow:849de7d11f2ee5ff",
-        "z": "a71775bf701198d6",
-        "name": "\"Основной сервер не доступен\"",
-        "env": [
-            {
-                "name": "message",
-                "value": "Основной сервер не доступен",
-                "type": "str"
-            },
-            {
-                "name": "static_message",
-                "type": "bool",
-                "value": "true"
-            }
-        ],
-        "x": 1240,
-        "y": 280,
-        "wires": []
-    },
-    {
-        "id": "80cd93c684fd2740",
-        "type": "api-call-service",
+        "id": "d44580bd5a48d6c8",
+        "type": "change",
         "z": "a71775bf701198d6",
         "name": "Взять роль главного сервера на себя",
-        "server": "7968c6b6.08c848",
-        "version": 5,
-        "debugenabled": false,
-        "domain": "switch",
-        "service": "turn_on",
-        "areaId": [],
-        "deviceId": [],
-        "entityId": [
-            "switch.main_control_mode"
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
         ],
-        "data": "",
-        "dataType": "jsonata",
-        "mergeContext": "",
-        "mustacheAltTags": false,
-        "outputProperties": [],
-        "queue": "none",
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
         "x": 1250,
         "y": 340,
         "wires": [
-            []
-        ]
-    },
-    {
-        "id": "db057c60686f7590",
-        "type": "api-call-service",
-        "z": "a71775bf701198d6",
-        "name": "Взять роль главного сервера на себя",
-        "server": "7968c6b6.08c848",
-        "version": 5,
-        "debugenabled": false,
-        "domain": "switch",
-        "service": "turn_off",
-        "areaId": [],
-        "deviceId": [],
-        "entityId": [
-            "switch.main_control_mode"
-        ],
-        "data": "",
-        "dataType": "jsonata",
-        "mergeContext": "",
-        "mustacheAltTags": false,
-        "outputProperties": [],
-        "queue": "none",
-        "x": 2270,
-        "y": 380,
-        "wires": [
             [
-                "31427102c35c1e63",
-                "12c404dda7d57b0f"
+                "f3259336c77a306a"
             ]
         ]
-    },
-    {
-        "id": "12c404dda7d57b0f",
-        "type": "subflow:849de7d11f2ee5ff",
-        "z": "a71775bf701198d6",
-        "name": "\"Основной сервер восстановился\"",
-        "env": [
-            {
-                "name": "message",
-                "value": "Основной сервер восстановился",
-                "type": "str"
-            },
-            {
-                "name": "static_message",
-                "type": "bool",
-                "value": "true"
-            }
-        ],
-        "x": 2590,
-        "y": 340,
-        "wires": []
     },
     {
         "id": "21575f7574b3b5e0",
@@ -3167,11 +3098,11 @@
         "server": "7968c6b6.08c848",
         "version": 3,
         "outputs": 2,
-        "halt_if": "off",
-        "halt_if_type": "str",
+        "halt_if": "true",
+        "halt_if_type": "bool",
         "halt_if_compare": "is",
         "entity_id": "binary_sensor.0x00158d000123129b_contact",
-        "state_type": "str",
+        "state_type": "habool",
         "blockInputOverrides": false,
         "outputProperties": [],
         "for": "0",
@@ -3336,6 +3267,7 @@
         "areaId": [],
         "deviceId": [],
         "entityId": [
+            "cover.0x54ef441000a02f4e",
             "cover.0x54ef44100044454b"
         ],
         "data": "",
