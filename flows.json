@@ -88,6 +88,46 @@
         "env": []
     },
     {
+        "id": "e8255e0cdb601b53",
+        "type": "tab",
+        "label": "Коридор. Свет",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "f0887308d69fbe74",
+        "type": "tab",
+        "label": "Туалет. Свет",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "e9684ec398a6f0d3",
+        "type": "tab",
+        "label": "Ванна. Свет",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "e6786f404c9011a5",
+        "type": "tab",
+        "label": "Кухня. Свет",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "c8cc9d79641ed0e3",
+        "type": "tab",
+        "label": "Зал. Свет",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "fb9ffeb46b14d217",
         "type": "subflow",
         "name": "Управление автоматизацией",
@@ -235,6 +275,183 @@
         "icon": "font-awesome/fa-paper-plane"
     },
     {
+        "id": "fcbff82e0afba12f",
+        "type": "subflow",
+        "name": "Управление светом",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 160,
+                "y": 240,
+                "wires": [
+                    {
+                        "id": "af9b8d3c88b8d8e7"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 1530,
+                "y": 100,
+                "wires": [
+                    {
+                        "id": "f4e7e176dfd36654",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 1540,
+                "y": 160,
+                "wires": [
+                    {
+                        "id": "034c9d92cc9b3ad4",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 1380,
+                "y": 260,
+                "wires": [
+                    {
+                        "id": "af9b8d3c88b8d8e7",
+                        "port": 3
+                    }
+                ]
+            },
+            {
+                "x": 1390,
+                "y": 320,
+                "wires": [
+                    {
+                        "id": "29c17b743cc40487",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 1350,
+                "y": 400,
+                "wires": [
+                    {
+                        "id": "af9b8d3c88b8d8e7",
+                        "port": 5
+                    }
+                ]
+            },
+            {
+                "x": 1360,
+                "y": 480,
+                "wires": [
+                    {
+                        "id": "629928785fcf196f",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "manual_time_delay",
+                "type": "num",
+                "value": "30",
+                "ui": {
+                    "icon": "font-awesome/fa-clock-o",
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "num"
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "main_time_delay",
+                "type": "num",
+                "value": "2",
+                "ui": {
+                    "icon": "font-awesome/fa-clock-o",
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "num"
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "night_light_enabled",
+                "type": "bool",
+                "value": "false",
+                "ui": {
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "bool"
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "night_lights_after_time",
+                "type": "str",
+                "value": "23:00",
+                "ui": {
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "str"
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "night_lights_before_time",
+                "type": "str",
+                "value": "08:00",
+                "ui": {
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "str"
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "night_time_delay",
+                "type": "num",
+                "value": "1",
+                "ui": {
+                    "icon": "font-awesome/fa-clock-o",
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "num"
+                        ]
+                    }
+                }
+            }
+        ],
+        "meta": {},
+        "color": "#FFCC66",
+        "inputLabels": [
+            "Триггеры"
+        ],
+        "outputLabels": [
+            "Ручное включение",
+            "Ручное выключение",
+            "Автоматическое включение",
+            "Автоматическое выключение",
+            "Ночное включение",
+            "Ночное выключение"
+        ],
+        "icon": "font-awesome/fa-lightbulb-o"
+    },
+    {
         "id": "7968c6b6.08c848",
         "type": "server",
         "name": "Home Assistant",
@@ -331,7 +548,7 @@
         "type": "function",
         "z": "9915fb82b236611c",
         "name": "Подготовка данных для отправки сообщения в Telegram",
-        "func": "return {\n    payload: {\n        data: {\n            target: global.get(\"secrets\")['telegram_danilov_info_group_id'],\n            url: msg.payload.url,\n            caption: msg.payload.caption\n        }\n    }\n};",
+        "func": "var response =  {\n    payload: {\n        data: {\n            target: global.get(\"secrets\")['telegram_danilov_info_group_id'],\n            caption: msg.payload.caption\n        }\n    }\n};\n\nif (msg.payload.url !== undefined) {\n    response.payload.data.url = msg.payload.url;\n} else if (msg.payload.file !== undefined) {\n    response.payload.data.file = msg.payload.file;\n}\n\nreturn response;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -367,6 +584,261 @@
         "queue": "none",
         "x": 740,
         "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "af9b8d3c88b8d8e7",
+        "type": "function",
+        "z": "fcbff82e0afba12f",
+        "name": "Логика включения света",
+        "func": "function isNight() {\n    var isNight = env.get(\"night_light_enabled\") !== undefined && env.get(\"night_light_enabled\");\n\n    if (isNight) {\n        var now = new Date();\n        var nowH = now.getHours();\n\n        var afterArray = env.get(\"night_lights_after_time\").split(\":\");\n        var afterH = parseInt(afterArray[0]);\n        var after = new Date();\n        after.setHours(afterArray[0], afterArray[1]);\n\n        var beforeArray = env.get(\"night_lights_before_time\").split(\":\");\n        var beforeH = parseInt(beforeArray[0]);\n        var before = new Date();\n        before.setHours(beforeArray[0], beforeArray[1]);\n        \n        if (nowH < beforeH && nowH < afterH) {\n            after.setDate(now.getDate() - 1);\n        } else if (afterH > beforeH) {\n            before.setDate(now.getDate() + 1);\n        }\n\n        var nowTime = now.getTime();\n        var afterTime = after.getTime();\n        var beforeTime = before.getTime();\n\n        if (afterTime <= nowTime && nowTime <= beforeTime) {\n            return true;\n        }\n    }\n\n    return false;\n};\n\nvar result = [null, null, null, null, null, null, null];\n\nif (msg.manual !== undefined) {\n    if (msg.manual) {\n        msg.payload = \"auto\";\n        msg.delay = parseInt(env.get(\"manual_time_delay\")) * 1000 * 60;\n        result[0] = msg;\n        result[1] = msg;\n    } else {\n        msg.payload = \"manual|auto\";\n        result[0] = msg;\n        result[2] = msg;\n    }\n} else if (flow.get(\"manual\") === undefined || !flow.get(\"manual\")) { \n    if (msg.is_open_door || msg.is_motion_sensor) {\n        msg.payload = \"auto\";\n        result[0] = msg;\n\n        if (isNight()) {\n            result[5] = msg;\n        } else {\n            result[3] = msg;\n        }\n        \n    } else if (msg.is_motion_sensor !== undefined && !msg.is_motion_sensor) {\n        if (isNight()) {\n            result[6] = msg;\n            msg.delay = parseInt(env.get(\"night_time_delay\")) * 1000 * 60;\n        } else {\n            result[4] = msg;\n            msg.delay = parseInt(env.get(\"main_time_delay\")) * 1000 * 60;\n        }\n    }\n    \n}\n\nreturn result;\n\n\n",
+        "outputs": 7,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 300,
+        "wires": [
+            [
+                "098c41e3510513a1"
+            ],
+            [
+                "9a12b172226fefce"
+            ],
+            [
+                "034c9d92cc9b3ad4"
+            ],
+            [],
+            [
+                "29c17b743cc40487"
+            ],
+            [],
+            [
+                "629928785fcf196f"
+            ]
+        ]
+    },
+    {
+        "id": "9a12b172226fefce",
+        "type": "trigger",
+        "z": "fcbff82e0afba12f",
+        "name": "Выключение ручного включения",
+        "op1": "",
+        "op2": "",
+        "op1type": "pay",
+        "op2type": "pay",
+        "duration": "5",
+        "extend": true,
+        "overrideDelay": true,
+        "units": "s",
+        "reset": "manual",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 2,
+        "x": 1020,
+        "y": 120,
+        "wires": [
+            [
+                "f4e7e176dfd36654"
+            ],
+            [
+                "034c9d92cc9b3ad4"
+            ]
+        ]
+    },
+    {
+        "id": "29c17b743cc40487",
+        "type": "trigger",
+        "z": "fcbff82e0afba12f",
+        "name": "Выключение автоматического включения",
+        "op1": "",
+        "op2": "",
+        "op1type": "nul",
+        "op2type": "pay",
+        "duration": "5",
+        "extend": true,
+        "overrideDelay": true,
+        "units": "s",
+        "reset": "auto",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 1070,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f4e7e176dfd36654",
+        "type": "change",
+        "z": "fcbff82e0afba12f",
+        "name": "Ручное включение",
+        "rules": [
+            {
+                "t": "set",
+                "p": "manual",
+                "pt": "flow",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1330,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "034c9d92cc9b3ad4",
+        "type": "change",
+        "z": "fcbff82e0afba12f",
+        "name": "Ручное выключение",
+        "rules": [
+            {
+                "t": "set",
+                "p": "manual",
+                "pt": "flow",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1320,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "098c41e3510513a1",
+        "type": "switch",
+        "z": "fcbff82e0afba12f",
+        "name": "Сброс таймера для",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "manual",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "auto",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "manual|auto",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 480,
+        "y": 80,
+        "wires": [
+            [
+                "b88dac430f7d08ca"
+            ],
+            [
+                "3bed4310267f4eae"
+            ],
+            [
+                "b88dac430f7d08ca",
+                "3bed4310267f4eae"
+            ]
+        ]
+    },
+    {
+        "id": "3bed4310267f4eae",
+        "type": "change",
+        "z": "fcbff82e0afba12f",
+        "name": "auto",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "auto",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 710,
+        "y": 100,
+        "wires": [
+            [
+                "29c17b743cc40487",
+                "629928785fcf196f"
+            ]
+        ]
+    },
+    {
+        "id": "b88dac430f7d08ca",
+        "type": "change",
+        "z": "fcbff82e0afba12f",
+        "name": "manual",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "manual",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 720,
+        "y": 60,
+        "wires": [
+            [
+                "9a12b172226fefce"
+            ]
+        ]
+    },
+    {
+        "id": "629928785fcf196f",
+        "type": "trigger",
+        "z": "fcbff82e0afba12f",
+        "name": "Выключение автоматического включения",
+        "op1": "",
+        "op2": "",
+        "op1type": "nul",
+        "op2type": "pay",
+        "duration": "5",
+        "extend": true,
+        "overrideDelay": true,
+        "units": "s",
+        "reset": "auto",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 1070,
+        "y": 480,
         "wires": [
             []
         ]
@@ -2687,10 +3159,9 @@
         "z": "466e0d281ab19f6c",
         "name": "",
         "x": 550,
-        "y": 100,
+        "y": 140,
         "wires": [
             [
-                "91d1060e671944b2",
                 "32bcf43ccdb35c76"
             ],
             []
@@ -2725,7 +3196,7 @@
         "stateType": "str",
         "enableInput": false,
         "x": 220,
-        "y": 120,
+        "y": 160,
         "wires": [
             [
                 "6ca910413d166cfc"
@@ -2738,8 +3209,8 @@
         "type": "subflow:9915fb82b236611c",
         "z": "466e0d281ab19f6c",
         "name": "",
-        "x": 1200,
-        "y": 60,
+        "x": 940,
+        "y": 340,
         "wires": []
     },
     {
@@ -2747,15 +3218,15 @@
         "type": "function",
         "z": "466e0d281ab19f6c",
         "name": "Подготовка данных для отправки в TG",
-        "func": "var ip_address = global.get(\"homeassistant.homeAssistant.states['sensor.local_ip'].state\");\nvar img_url = global.get(\"homeassistant.homeAssistant.states['image.dp2c_j21918665_last_motion_image'].attributes.entity_picture\");\n\nmsg.payload = {\n    url: \"http://\" + ip_address + \":8123\" + img_url,\n    capture: \"Кто-то у входной двери\"\n};\n\nreturn msg;",
+        "func": "var ip_address = global.get(\"homeassistant.homeAssistant.states['sensor.local_ip'].state\");\n//var img_url = \"/local/downloads/camera/dp2c_j21918665_last.jpg?v=\" + Date.now();\n//var img_url = global.get(\"homeassistant.homeAssistant.states['image.dp2c_j21918665_last_motion_image'].attributes.entity_picture\");\n\nmsg.payload = {\n    //url: \"http://\" + ip_address + \":8123\" + img_url,\n    file: \"/config/www/downloads/camera/dp2c_j21918665_last.jpg\",\n    caption: \"Кто-то у входной двери\"\n};\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 900,
-        "y": 60,
+        "x": 880,
+        "y": 280,
         "wires": [
             [
                 "2b18a5de35c37220"
@@ -2781,10 +3252,12 @@
         "mustacheAltTags": false,
         "outputProperties": [],
         "queue": "none",
-        "x": 1140,
-        "y": 120,
+        "x": 960,
+        "y": 160,
         "wires": [
-            []
+            [
+                "ec45744737f6cac4"
+            ]
         ]
     },
     {
@@ -2804,6 +3277,31 @@
         "wires": [
             [
                 "05f6fedcaaf27d9d"
+            ]
+        ]
+    },
+    {
+        "id": "ec45744737f6cac4",
+        "type": "delay",
+        "z": "466e0d281ab19f6c",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 970,
+        "y": 220,
+        "wires": [
+            [
+                "91d1060e671944b2"
             ]
         ]
     },
@@ -3596,6 +4094,2729 @@
             [
                 "4c0ec1ce4a8d94d3"
             ],
+            []
+        ]
+    },
+    {
+        "id": "4a9e330aa0350271",
+        "type": "subflow:fcbff82e0afba12f",
+        "z": "e8255e0cdb601b53",
+        "name": "",
+        "env": [
+            {
+                "name": "night_light_enabled",
+                "value": "true",
+                "type": "bool"
+            },
+            {
+                "name": "door_sensors",
+                "value": "test",
+                "type": "str"
+            }
+        ],
+        "x": 1000,
+        "y": 280,
+        "wires": [
+            [
+                "516a81a271d67b0f"
+            ],
+            [
+                "b7ad3dd60ffabb1f"
+            ],
+            [
+                "516a81a271d67b0f"
+            ],
+            [
+                "b7ad3dd60ffabb1f"
+            ],
+            [
+                "f7224912afd1b276"
+            ],
+            [
+                "a60dba93c2e6e511"
+            ]
+        ]
+    },
+    {
+        "id": "a378a497b410cd5d",
+        "type": "server-state-changed",
+        "z": "e8255e0cdb601b53",
+        "name": "Переключатель",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "outputs": 2,
+        "exposeAsEntityConfig": "",
+        "entityId": "sensor.0x54ef4410005b0295_action",
+        "entityIdType": "exact",
+        "outputInitially": false,
+        "stateType": "str",
+        "ifState": "single_right",
+        "ifStateType": "str",
+        "ifStateOperator": "is",
+        "outputOnlyOnStateChange": true,
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": false,
+        "ignoreCurrentStateUnavailable": false,
+        "outputProperties": [],
+        "x": 180,
+        "y": 340,
+        "wires": [
+            [
+                "67d0e1ee3b06f63c"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "67d0e1ee3b06f63c",
+        "type": "api-current-state",
+        "z": "e8255e0cdb601b53",
+        "name": "Выключено основное освещение?",
+        "server": "7968c6b6.08c848",
+        "version": 3,
+        "outputs": 2,
+        "halt_if": "false",
+        "halt_if_type": "bool",
+        "halt_if_compare": "is",
+        "entity_id": "light.yeelight_450c_1",
+        "state_type": "habool",
+        "blockInputOverrides": false,
+        "outputProperties": [],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 450,
+        "y": 320,
+        "wires": [
+            [
+                "0ce0059430d0f3d3"
+            ],
+            [
+                "6aa0cec52de355bb"
+            ]
+        ]
+    },
+    {
+        "id": "0ce0059430d0f3d3",
+        "type": "change",
+        "z": "e8255e0cdb601b53",
+        "name": "manual = true",
+        "rules": [
+            {
+                "t": "set",
+                "p": "manual",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 720,
+        "y": 300,
+        "wires": [
+            [
+                "4a9e330aa0350271"
+            ]
+        ]
+    },
+    {
+        "id": "6aa0cec52de355bb",
+        "type": "change",
+        "z": "e8255e0cdb601b53",
+        "name": "manual = false",
+        "rules": [
+            {
+                "t": "set",
+                "p": "manual",
+                "pt": "msg",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 720,
+        "y": 340,
+        "wires": [
+            [
+                "4a9e330aa0350271"
+            ]
+        ]
+    },
+    {
+        "id": "2c3caf9e3e2fc465",
+        "type": "server-state-changed",
+        "z": "e8255e0cdb601b53",
+        "name": "Датчик движения",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "outputs": 1,
+        "exposeAsEntityConfig": "",
+        "entityId": "binary_sensor.0x00158d0003f1029f_occupancy",
+        "entityIdType": "exact",
+        "outputInitially": false,
+        "stateType": "str",
+        "ifState": "",
+        "ifStateType": "str",
+        "ifStateOperator": "is",
+        "outputOnlyOnStateChange": true,
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": true,
+        "ignoreCurrentStateUnavailable": true,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            }
+        ],
+        "x": 230,
+        "y": 220,
+        "wires": [
+            [
+                "b24faff4bfa549e1"
+            ]
+        ]
+    },
+    {
+        "id": "b24faff4bfa549e1",
+        "type": "switch",
+        "z": "e8255e0cdb601b53",
+        "name": "Состояние датчика",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "on",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "off",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 440,
+        "y": 220,
+        "wires": [
+            [
+                "5727c5293f014f21"
+            ],
+            [
+                "94808d7185425a3a"
+            ]
+        ]
+    },
+    {
+        "id": "5727c5293f014f21",
+        "type": "change",
+        "z": "e8255e0cdb601b53",
+        "name": "is_motion_sensor = true",
+        "rules": [
+            {
+                "t": "set",
+                "p": "is_motion_sensor",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 690,
+        "y": 200,
+        "wires": [
+            [
+                "4a9e330aa0350271"
+            ]
+        ]
+    },
+    {
+        "id": "94808d7185425a3a",
+        "type": "change",
+        "z": "e8255e0cdb601b53",
+        "name": "is_motion_sensor = false",
+        "rules": [
+            {
+                "t": "set",
+                "p": "is_motion_sensor",
+                "pt": "msg",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 690,
+        "y": 240,
+        "wires": [
+            [
+                "4a9e330aa0350271"
+            ]
+        ]
+    },
+    {
+        "id": "516a81a271d67b0f",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "e8255e0cdb601b53",
+        "name": "",
+        "x": 1295,
+        "y": 140,
+        "wires": [
+            [
+                "583b00c46b2c53f5"
+            ],
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "b7ad3dd60ffabb1f",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "e8255e0cdb601b53",
+        "name": "",
+        "x": 1295,
+        "y": 240,
+        "wires": [
+            [
+                "409c470e2890951c"
+            ],
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "f7224912afd1b276",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "e8255e0cdb601b53",
+        "name": "",
+        "x": 1295,
+        "y": 340,
+        "wires": [
+            [
+                "437750673e5f89b8"
+            ],
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "a60dba93c2e6e511",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "e8255e0cdb601b53",
+        "name": "",
+        "x": 1295,
+        "y": 400,
+        "wires": [
+            [
+                "01bd17fd54dd1256"
+            ],
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "583b00c46b2c53f5",
+        "type": "api-call-service",
+        "z": "e8255e0cdb601b53",
+        "name": "Включить дневной свет",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_on",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.yeelight_450c_1",
+            "light.wiz_ceiling_corridor"
+        ],
+        "data": "{\"kelvin\":4000,\"brightness_pct\":100}",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1450,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "437750673e5f89b8",
+        "type": "api-call-service",
+        "z": "e8255e0cdb601b53",
+        "name": "Включить ночной свет",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_on",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.yeelight_450c_1_nightlight"
+        ],
+        "data": "",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1450,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "01bd17fd54dd1256",
+        "type": "api-call-service",
+        "z": "e8255e0cdb601b53",
+        "name": "Выключить ночной свет",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_off",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.yeelight_450c_1_nightlight",
+            "light.wiz_ceiling_corridor"
+        ],
+        "data": "",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1450,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "409c470e2890951c",
+        "type": "api-call-service",
+        "z": "e8255e0cdb601b53",
+        "name": "Выключить дневной свет",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_off",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.yeelight_450c_1",
+            "light.wiz_ceiling_corridor"
+        ],
+        "data": "",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1450,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "908991fd4b467f57",
+        "type": "subflow:fcbff82e0afba12f",
+        "z": "f0887308d69fbe74",
+        "name": "",
+        "env": [
+            {
+                "name": "manual_time_delay",
+                "value": "15",
+                "type": "num"
+            },
+            {
+                "name": "main_time_delay",
+                "value": "5",
+                "type": "num"
+            },
+            {
+                "name": "night_light_enabled",
+                "value": "true",
+                "type": "bool"
+            },
+            {
+                "name": "night_time_delay",
+                "value": "3",
+                "type": "num"
+            },
+            {
+                "name": "door_sensors",
+                "value": "test",
+                "type": "str"
+            }
+        ],
+        "x": 1020,
+        "y": 220,
+        "wires": [
+            [
+                "64df0632eb3476b9"
+            ],
+            [
+                "3cd8def29b9f776d"
+            ],
+            [
+                "64df0632eb3476b9"
+            ],
+            [
+                "3cd8def29b9f776d"
+            ],
+            [
+                "9fc341f86fec9fac"
+            ],
+            [
+                "3cd8def29b9f776d"
+            ]
+        ]
+    },
+    {
+        "id": "7c83c7e517d5aa59",
+        "type": "server-state-changed",
+        "z": "f0887308d69fbe74",
+        "name": "Переключатель",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "outputs": 2,
+        "exposeAsEntityConfig": "",
+        "entityId": "sensor.0x54ef4410005e60c8_action",
+        "entityIdType": "exact",
+        "outputInitially": false,
+        "stateType": "str",
+        "ifState": "single_left",
+        "ifStateType": "str",
+        "ifStateOperator": "is",
+        "outputOnlyOnStateChange": true,
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": false,
+        "ignoreCurrentStateUnavailable": false,
+        "outputProperties": [],
+        "x": 200,
+        "y": 340,
+        "wires": [
+            [
+                "f1205a18f052cf99"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "f1205a18f052cf99",
+        "type": "api-current-state",
+        "z": "f0887308d69fbe74",
+        "name": "Выключено основное освещение?",
+        "server": "7968c6b6.08c848",
+        "version": 3,
+        "outputs": 2,
+        "halt_if": "false",
+        "halt_if_type": "bool",
+        "halt_if_compare": "is",
+        "entity_id": "light.wiz_ceiling_toilet",
+        "state_type": "habool",
+        "blockInputOverrides": false,
+        "outputProperties": [],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 470,
+        "y": 320,
+        "wires": [
+            [
+                "88667dec70b108f7"
+            ],
+            [
+                "74ff9ef37beeac04"
+            ]
+        ]
+    },
+    {
+        "id": "88667dec70b108f7",
+        "type": "change",
+        "z": "f0887308d69fbe74",
+        "name": "manual = true",
+        "rules": [
+            {
+                "t": "set",
+                "p": "manual",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 740,
+        "y": 300,
+        "wires": [
+            [
+                "908991fd4b467f57"
+            ]
+        ]
+    },
+    {
+        "id": "74ff9ef37beeac04",
+        "type": "change",
+        "z": "f0887308d69fbe74",
+        "name": "manual = false",
+        "rules": [
+            {
+                "t": "set",
+                "p": "manual",
+                "pt": "msg",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 740,
+        "y": 340,
+        "wires": [
+            [
+                "908991fd4b467f57"
+            ]
+        ]
+    },
+    {
+        "id": "4f51a39fc41f2808",
+        "type": "server-state-changed",
+        "z": "f0887308d69fbe74",
+        "name": "Датчик движения",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "outputs": 1,
+        "exposeAsEntityConfig": "",
+        "entityId": "binary_sensor.0x00158d0003cb49f0_occupancy",
+        "entityIdType": "exact",
+        "outputInitially": false,
+        "stateType": "str",
+        "ifState": "",
+        "ifStateType": "str",
+        "ifStateOperator": "is",
+        "outputOnlyOnStateChange": true,
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": true,
+        "ignoreCurrentStateUnavailable": true,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            }
+        ],
+        "x": 210,
+        "y": 100,
+        "wires": [
+            [
+                "50f5c9921f70eedf"
+            ]
+        ]
+    },
+    {
+        "id": "50f5c9921f70eedf",
+        "type": "switch",
+        "z": "f0887308d69fbe74",
+        "name": "Состояние датчика",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "on",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "off",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 440,
+        "y": 100,
+        "wires": [
+            [
+                "e8f15792cb0e5291"
+            ],
+            [
+                "f39b126e920f32f5"
+            ]
+        ]
+    },
+    {
+        "id": "e8f15792cb0e5291",
+        "type": "change",
+        "z": "f0887308d69fbe74",
+        "name": "is_motion_sensor = true",
+        "rules": [
+            {
+                "t": "set",
+                "p": "is_motion_sensor",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 710,
+        "y": 80,
+        "wires": [
+            [
+                "908991fd4b467f57"
+            ]
+        ]
+    },
+    {
+        "id": "f39b126e920f32f5",
+        "type": "change",
+        "z": "f0887308d69fbe74",
+        "name": "is_motion_sensor = false",
+        "rules": [
+            {
+                "t": "set",
+                "p": "is_motion_sensor",
+                "pt": "msg",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 710,
+        "y": 120,
+        "wires": [
+            [
+                "908991fd4b467f57"
+            ]
+        ]
+    },
+    {
+        "id": "171d1b963ef9eddc",
+        "type": "server-state-changed",
+        "z": "f0887308d69fbe74",
+        "name": "Дверь туалета",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "outputs": 1,
+        "exposeAsEntityConfig": "",
+        "entityId": "binary_sensor.0x00158d0003937855_contact",
+        "entityIdType": "exact",
+        "outputInitially": false,
+        "stateType": "str",
+        "ifState": "",
+        "ifStateType": "str",
+        "ifStateOperator": "is",
+        "outputOnlyOnStateChange": true,
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": true,
+        "ignoreCurrentStateUnavailable": true,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            }
+        ],
+        "x": 240,
+        "y": 220,
+        "wires": [
+            [
+                "18a8a690db993be7"
+            ]
+        ]
+    },
+    {
+        "id": "18a8a690db993be7",
+        "type": "switch",
+        "z": "f0887308d69fbe74",
+        "name": "Состояние датчика",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "on",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "off",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 460,
+        "y": 220,
+        "wires": [
+            [
+                "777cb8a4929d77a6"
+            ],
+            [
+                "930def7debc27018"
+            ]
+        ]
+    },
+    {
+        "id": "777cb8a4929d77a6",
+        "type": "change",
+        "z": "f0887308d69fbe74",
+        "name": "is_open_door = true",
+        "rules": [
+            {
+                "t": "set",
+                "p": "is_open_door",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 700,
+        "y": 200,
+        "wires": [
+            [
+                "908991fd4b467f57"
+            ]
+        ]
+    },
+    {
+        "id": "930def7debc27018",
+        "type": "change",
+        "z": "f0887308d69fbe74",
+        "name": "is_open_door = false",
+        "rules": [
+            {
+                "t": "set",
+                "p": "is_open_door",
+                "pt": "msg",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 700,
+        "y": 240,
+        "wires": [
+            [
+                "908991fd4b467f57"
+            ]
+        ]
+    },
+    {
+        "id": "64df0632eb3476b9",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "f0887308d69fbe74",
+        "name": "",
+        "x": 1285,
+        "y": 160,
+        "wires": [
+            [
+                "48bb724fcee0b858"
+            ],
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "3cd8def29b9f776d",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "f0887308d69fbe74",
+        "name": "",
+        "x": 1285,
+        "y": 220,
+        "wires": [
+            [
+                "4c532b40ca26ff69"
+            ],
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "48bb724fcee0b858",
+        "type": "api-call-service",
+        "z": "f0887308d69fbe74",
+        "name": "Включить дневной свет",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_on",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.wiz_ceiling_toilet"
+        ],
+        "data": "{\"transition\":2,\"kelvin\":4000,\"brightness_pct\":100}",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1470,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c77985626e6ce019",
+        "type": "api-call-service",
+        "z": "f0887308d69fbe74",
+        "name": "Включить ночной свет",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_on",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.wiz_ceiling_toilet"
+        ],
+        "data": "{\"transition\":2,\"kelvin\":3500,\"brightness_pct\":10}",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1470,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4c532b40ca26ff69",
+        "type": "api-call-service",
+        "z": "f0887308d69fbe74",
+        "name": "Выключить свет",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_off",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.wiz_ceiling_toilet"
+        ],
+        "data": "{\"transition\":2}",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1450,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9fc341f86fec9fac",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "f0887308d69fbe74",
+        "name": "",
+        "x": 1285,
+        "y": 280,
+        "wires": [
+            [
+                "c77985626e6ce019"
+            ],
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "73939c03cedb905e",
+        "type": "subflow:fcbff82e0afba12f",
+        "z": "e9684ec398a6f0d3",
+        "name": "",
+        "env": [
+            {
+                "name": "main_time_delay",
+                "value": "7",
+                "type": "num"
+            },
+            {
+                "name": "night_light_enabled",
+                "value": "true",
+                "type": "bool"
+            },
+            {
+                "name": "night_lights_after_time",
+                "value": "00:00",
+                "type": "str"
+            },
+            {
+                "name": "night_time_delay",
+                "value": "3",
+                "type": "num"
+            },
+            {
+                "name": "door_sensors",
+                "value": "test",
+                "type": "str"
+            }
+        ],
+        "x": 980,
+        "y": 220,
+        "wires": [
+            [
+                "a4b048ee7c69f034"
+            ],
+            [
+                "fe65f3c8264865ff"
+            ],
+            [
+                "a4b048ee7c69f034"
+            ],
+            [
+                "fe65f3c8264865ff"
+            ],
+            [
+                "b32b401b35313dbc"
+            ],
+            [
+                "fe65f3c8264865ff"
+            ]
+        ]
+    },
+    {
+        "id": "2706c8dde07d893c",
+        "type": "server-state-changed",
+        "z": "e9684ec398a6f0d3",
+        "name": "Переключатель",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "outputs": 2,
+        "exposeAsEntityConfig": "",
+        "entityId": "sensor.0x54ef4410005e60c8_action",
+        "entityIdType": "exact",
+        "outputInitially": false,
+        "stateType": "str",
+        "ifState": "single_right",
+        "ifStateType": "str",
+        "ifStateOperator": "is",
+        "outputOnlyOnStateChange": true,
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": false,
+        "ignoreCurrentStateUnavailable": false,
+        "outputProperties": [],
+        "x": 160,
+        "y": 340,
+        "wires": [
+            [
+                "57b83d22840e51a3"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "57b83d22840e51a3",
+        "type": "api-current-state",
+        "z": "e9684ec398a6f0d3",
+        "name": "Выключено основное освещение?",
+        "server": "7968c6b6.08c848",
+        "version": 3,
+        "outputs": 2,
+        "halt_if": "false",
+        "halt_if_type": "bool",
+        "halt_if_compare": "is",
+        "entity_id": "light.0x7cb94c77ef400000",
+        "state_type": "habool",
+        "blockInputOverrides": false,
+        "outputProperties": [],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 430,
+        "y": 320,
+        "wires": [
+            [
+                "0f499f90fc72018d"
+            ],
+            [
+                "54c6eaf48dfb72fe"
+            ]
+        ]
+    },
+    {
+        "id": "0f499f90fc72018d",
+        "type": "change",
+        "z": "e9684ec398a6f0d3",
+        "name": "manual = true",
+        "rules": [
+            {
+                "t": "set",
+                "p": "manual",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 700,
+        "y": 300,
+        "wires": [
+            [
+                "73939c03cedb905e"
+            ]
+        ]
+    },
+    {
+        "id": "54c6eaf48dfb72fe",
+        "type": "change",
+        "z": "e9684ec398a6f0d3",
+        "name": "manual = false",
+        "rules": [
+            {
+                "t": "set",
+                "p": "manual",
+                "pt": "msg",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 700,
+        "y": 340,
+        "wires": [
+            [
+                "73939c03cedb905e"
+            ]
+        ]
+    },
+    {
+        "id": "d0110077990cecf1",
+        "type": "server-state-changed",
+        "z": "e9684ec398a6f0d3",
+        "name": "Датчик движения",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "outputs": 1,
+        "exposeAsEntityConfig": "",
+        "entityId": "binary_sensor.0x00158d0003cf8ae6_occupancy",
+        "entityIdType": "exact",
+        "outputInitially": false,
+        "stateType": "str",
+        "ifState": "",
+        "ifStateType": "str",
+        "ifStateOperator": "is",
+        "outputOnlyOnStateChange": true,
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": true,
+        "ignoreCurrentStateUnavailable": true,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            }
+        ],
+        "x": 170,
+        "y": 100,
+        "wires": [
+            [
+                "9a85df01762588b0"
+            ]
+        ]
+    },
+    {
+        "id": "9a85df01762588b0",
+        "type": "switch",
+        "z": "e9684ec398a6f0d3",
+        "name": "Состояние датчика",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "on",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "off",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 400,
+        "y": 100,
+        "wires": [
+            [
+                "d292989b327391b4"
+            ],
+            [
+                "f40a431c29652206"
+            ]
+        ]
+    },
+    {
+        "id": "d292989b327391b4",
+        "type": "change",
+        "z": "e9684ec398a6f0d3",
+        "name": "is_motion_sensor = true",
+        "rules": [
+            {
+                "t": "set",
+                "p": "is_motion_sensor",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 670,
+        "y": 80,
+        "wires": [
+            [
+                "73939c03cedb905e"
+            ]
+        ]
+    },
+    {
+        "id": "f40a431c29652206",
+        "type": "change",
+        "z": "e9684ec398a6f0d3",
+        "name": "is_motion_sensor = false",
+        "rules": [
+            {
+                "t": "set",
+                "p": "is_motion_sensor",
+                "pt": "msg",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 670,
+        "y": 120,
+        "wires": [
+            [
+                "73939c03cedb905e"
+            ]
+        ]
+    },
+    {
+        "id": "d4e9a35641b8ad56",
+        "type": "server-state-changed",
+        "z": "e9684ec398a6f0d3",
+        "name": "Дверь",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "outputs": 1,
+        "exposeAsEntityConfig": "",
+        "entityId": "binary_sensor.0x00158d0003cbd91c_contact",
+        "entityIdType": "exact",
+        "outputInitially": false,
+        "stateType": "str",
+        "ifState": "",
+        "ifStateType": "str",
+        "ifStateOperator": "is",
+        "outputOnlyOnStateChange": true,
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": true,
+        "ignoreCurrentStateUnavailable": true,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            }
+        ],
+        "x": 230,
+        "y": 220,
+        "wires": [
+            [
+                "62ba39010cfaf5af"
+            ]
+        ]
+    },
+    {
+        "id": "62ba39010cfaf5af",
+        "type": "switch",
+        "z": "e9684ec398a6f0d3",
+        "name": "Состояние датчика",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "on",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "off",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 420,
+        "y": 220,
+        "wires": [
+            [
+                "4f64222be60cb33e"
+            ],
+            [
+                "8e702f9b3282f5de"
+            ]
+        ]
+    },
+    {
+        "id": "4f64222be60cb33e",
+        "type": "change",
+        "z": "e9684ec398a6f0d3",
+        "name": "is_open_door = true",
+        "rules": [
+            {
+                "t": "set",
+                "p": "is_open_door",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 660,
+        "y": 200,
+        "wires": [
+            [
+                "73939c03cedb905e"
+            ]
+        ]
+    },
+    {
+        "id": "8e702f9b3282f5de",
+        "type": "change",
+        "z": "e9684ec398a6f0d3",
+        "name": "is_open_door = false",
+        "rules": [
+            {
+                "t": "set",
+                "p": "is_open_door",
+                "pt": "msg",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 660,
+        "y": 240,
+        "wires": [
+            [
+                "73939c03cedb905e"
+            ]
+        ]
+    },
+    {
+        "id": "a4b048ee7c69f034",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "e9684ec398a6f0d3",
+        "name": "",
+        "x": 1245,
+        "y": 160,
+        "wires": [
+            [
+                "3b5b8eaa2792735d",
+                "831b2db767d6e5dd"
+            ],
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "fe65f3c8264865ff",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "e9684ec398a6f0d3",
+        "name": "",
+        "x": 1245,
+        "y": 280,
+        "wires": [
+            [
+                "0510dd467554f8f7",
+                "e7c20840ca6f9f46"
+            ],
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "3b5b8eaa2792735d",
+        "type": "api-call-service",
+        "z": "e9684ec398a6f0d3",
+        "name": "Включить дневной свет",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_on",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.0x7cb94c77ef400000"
+        ],
+        "data": "{\"kelvin\":4000,\"brightness_pct\":100}",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1430,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ceeaa3fbf0f35042",
+        "type": "api-call-service",
+        "z": "e9684ec398a6f0d3",
+        "name": "Включить ночной свет",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_on",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.0x7cb94c77ef400000"
+        ],
+        "data": "{\"kelvin\":3500,\"brightness_pct\":10}",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1430,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0510dd467554f8f7",
+        "type": "api-call-service",
+        "z": "e9684ec398a6f0d3",
+        "name": "Выключить свет",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_off",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.0x7cb94c77ef400000"
+        ],
+        "data": "",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1450,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b32b401b35313dbc",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "e9684ec398a6f0d3",
+        "name": "",
+        "x": 1245,
+        "y": 360,
+        "wires": [
+            [
+                "ceeaa3fbf0f35042",
+                "831b2db767d6e5dd"
+            ],
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "831b2db767d6e5dd",
+        "type": "api-call-service",
+        "z": "e9684ec398a6f0d3",
+        "name": "Включить зеркало",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "switch",
+        "service": "turn_on",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "switch.0xa4c13811d3a5a0f3"
+        ],
+        "data": "",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1410,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e7c20840ca6f9f46",
+        "type": "api-call-service",
+        "z": "e9684ec398a6f0d3",
+        "name": "Выключить зеркало",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "switch",
+        "service": "turn_off",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "switch.0xa4c13811d3a5a0f3"
+        ],
+        "data": "",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1460,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5bedd90bad85c25e",
+        "type": "server-state-changed",
+        "z": "e6786f404c9011a5",
+        "name": "Переключатель",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "outputs": 1,
+        "exposeAsEntityConfig": "",
+        "entityId": "sensor.0x54ef4410004db308_action",
+        "entityIdType": "exact",
+        "outputInitially": false,
+        "stateType": "str",
+        "ifState": "",
+        "ifStateType": "str",
+        "ifStateOperator": "is",
+        "outputOnlyOnStateChange": true,
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": false,
+        "ignoreCurrentStateUnavailable": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            }
+        ],
+        "x": 100,
+        "y": 460,
+        "wires": [
+            [
+                "8dc72f7dc5142697"
+            ]
+        ]
+    },
+    {
+        "id": "3bc15d1eefca69b7",
+        "type": "api-current-state",
+        "z": "e6786f404c9011a5",
+        "name": "Выключено основное освещение?",
+        "server": "7968c6b6.08c848",
+        "version": 3,
+        "outputs": 2,
+        "halt_if": "false",
+        "halt_if_type": "bool",
+        "halt_if_compare": "is",
+        "entity_id": "light.yeelight_450c_0",
+        "state_type": "habool",
+        "blockInputOverrides": false,
+        "outputProperties": [],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 570,
+        "y": 220,
+        "wires": [
+            [
+                "34a81d927fb504b6"
+            ],
+            [
+                "ec6341cd36e9a517"
+            ]
+        ]
+    },
+    {
+        "id": "f81afe978852a26b",
+        "type": "api-call-service",
+        "z": "e6786f404c9011a5",
+        "name": "Включить дневной свет",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_on",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.yeelight_450c_0"
+        ],
+        "data": "{\"kelvin\":4000,\"brightness_pct\":100}",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 930,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "89596ead0ebb292d",
+        "type": "api-call-service",
+        "z": "e6786f404c9011a5",
+        "name": "Включить ночной свет",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_on",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.yeelight_450c_0_nightlight"
+        ],
+        "data": "",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 930,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e9023d86fe881b4f",
+        "type": "api-call-service",
+        "z": "e6786f404c9011a5",
+        "name": "Выключить свет",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_off",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.yeelight_450c_0"
+        ],
+        "data": "",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 910,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "34a81d927fb504b6",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "e6786f404c9011a5",
+        "name": "",
+        "x": 765,
+        "y": 180,
+        "wires": [
+            [
+                "f81afe978852a26b"
+            ],
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "ec6341cd36e9a517",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "e6786f404c9011a5",
+        "name": "",
+        "x": 765,
+        "y": 260,
+        "wires": [
+            [
+                "e9023d86fe881b4f"
+            ],
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "8dc72f7dc5142697",
+        "type": "switch",
+        "z": "e6786f404c9011a5",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "single_right",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "single_left",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "double_left",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "double_both",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 4,
+        "x": 270,
+        "y": 460,
+        "wires": [
+            [
+                "3bc15d1eefca69b7"
+            ],
+            [
+                "828d1895c1599295"
+            ],
+            [
+                "e50d23d9fdeb4007"
+            ],
+            [
+                "ec36ca7bdf9d6ea9"
+            ]
+        ]
+    },
+    {
+        "id": "828d1895c1599295",
+        "type": "api-current-state",
+        "z": "e6786f404c9011a5",
+        "name": "Выключено ночное освещение?",
+        "server": "7968c6b6.08c848",
+        "version": 3,
+        "outputs": 2,
+        "halt_if": "false",
+        "halt_if_type": "bool",
+        "halt_if_compare": "is",
+        "entity_id": "light.yeelight_450c_0_nightlight",
+        "state_type": "habool",
+        "blockInputOverrides": false,
+        "outputProperties": [],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 580,
+        "y": 380,
+        "wires": [
+            [
+                "9a335affc2122d51"
+            ],
+            [
+                "2fd7edb79b2d2e67"
+            ]
+        ]
+    },
+    {
+        "id": "9a335affc2122d51",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "e6786f404c9011a5",
+        "name": "",
+        "x": 765,
+        "y": 340,
+        "wires": [
+            [
+                "89596ead0ebb292d"
+            ],
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "cd7aa6acbfaaa15a",
+        "type": "api-call-service",
+        "z": "e6786f404c9011a5",
+        "name": "Выключить ночной свет",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_off",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.yeelight_450c_0_nightlight"
+        ],
+        "data": "",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 930,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2fd7edb79b2d2e67",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "e6786f404c9011a5",
+        "name": "",
+        "x": 765,
+        "y": 420,
+        "wires": [
+            [
+                "cd7aa6acbfaaa15a"
+            ],
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "e50d23d9fdeb4007",
+        "type": "api-current-state",
+        "z": "e6786f404c9011a5",
+        "name": "Выключена подсветка?",
+        "server": "7968c6b6.08c848",
+        "version": 3,
+        "outputs": 2,
+        "halt_if": "false",
+        "halt_if_type": "bool",
+        "halt_if_compare": "is",
+        "entity_id": "light.yeelight_450c_0_ambilight",
+        "state_type": "habool",
+        "blockInputOverrides": false,
+        "outputProperties": [],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 610,
+        "y": 540,
+        "wires": [
+            [
+                "95c7776444d60df4"
+            ],
+            [
+                "6e28074517c2a6c5"
+            ]
+        ]
+    },
+    {
+        "id": "95c7776444d60df4",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "e6786f404c9011a5",
+        "name": "",
+        "x": 765,
+        "y": 500,
+        "wires": [
+            [
+                "f468d6984b8ead94"
+            ],
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "6e28074517c2a6c5",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "e6786f404c9011a5",
+        "name": "",
+        "x": 765,
+        "y": 580,
+        "wires": [
+            [
+                "411458a0abc38952"
+            ],
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "f468d6984b8ead94",
+        "type": "api-call-service",
+        "z": "e6786f404c9011a5",
+        "name": "Включить подсветку",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_on",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.yeelight_450c_0_ambilight"
+        ],
+        "data": "{\"rgb_color\":[255,128,0],\"brightness_pct\":100}",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 920,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "411458a0abc38952",
+        "type": "api-call-service",
+        "z": "e6786f404c9011a5",
+        "name": "Выключить подсветкусвет",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_off",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.yeelight_450c_0_ambilight"
+        ],
+        "data": "",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 940,
+        "y": 560,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f10e393d25f4c3ad",
+        "type": "api-call-service",
+        "z": "e6786f404c9011a5",
+        "name": "Выключить питание освещения",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "switch",
+        "service": "turn_off",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "switch.0x54ef4410004db308_left",
+            "switch.0x54ef4410004db308_right"
+        ],
+        "data": "",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 680,
+        "y": 660,
+        "wires": [
+            [
+                "6fb843c8b4dad9ab"
+            ]
+        ]
+    },
+    {
+        "id": "ec36ca7bdf9d6ea9",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "e6786f404c9011a5",
+        "name": "",
+        "x": 485,
+        "y": 680,
+        "wires": [
+            [
+                "f10e393d25f4c3ad"
+            ],
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "6fb843c8b4dad9ab",
+        "type": "delay",
+        "z": "e6786f404c9011a5",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 910,
+        "y": 660,
+        "wires": [
+            [
+                "e7d70efa0dfb65cd"
+            ]
+        ]
+    },
+    {
+        "id": "e7d70efa0dfb65cd",
+        "type": "api-call-service",
+        "z": "e6786f404c9011a5",
+        "name": "Включить питание освещения",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "switch",
+        "service": "turn_on",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "switch.0x54ef4410004db308_left",
+            "switch.0x54ef4410004db308_right"
+        ],
+        "data": "",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1130,
+        "y": 660,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9e87771bb3143d4b",
+        "type": "server-state-changed",
+        "z": "c8cc9d79641ed0e3",
+        "name": "Переключатель",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "outputs": 1,
+        "exposeAsEntityConfig": "",
+        "entityId": "sensor.0x54ef4410004da26c_action",
+        "entityIdType": "exact",
+        "outputInitially": false,
+        "stateType": "str",
+        "ifState": "",
+        "ifStateType": "str",
+        "ifStateOperator": "is",
+        "outputOnlyOnStateChange": true,
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": false,
+        "ignoreCurrentStateUnavailable": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            }
+        ],
+        "x": 140,
+        "y": 420,
+        "wires": [
+            [
+                "1454792633b9e5fe"
+            ]
+        ]
+    },
+    {
+        "id": "ece6a588b2079a26",
+        "type": "api-current-state",
+        "z": "c8cc9d79641ed0e3",
+        "name": "Выключено основное освещение?",
+        "server": "7968c6b6.08c848",
+        "version": 3,
+        "outputs": 2,
+        "halt_if": "false",
+        "halt_if_type": "bool",
+        "halt_if_compare": "is",
+        "entity_id": "light.yeelight_arwen_550c",
+        "state_type": "habool",
+        "blockInputOverrides": false,
+        "outputProperties": [],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 610,
+        "y": 180,
+        "wires": [
+            [
+                "27b2f011b6a9e250"
+            ],
+            [
+                "c9244fb613ea05f6"
+            ]
+        ]
+    },
+    {
+        "id": "70a56ba12c0d2f25",
+        "type": "api-call-service",
+        "z": "c8cc9d79641ed0e3",
+        "name": "Включить дневной свет",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_on",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.yeelight_arwen_550c"
+        ],
+        "data": "{\"kelvin\":4000,\"brightness_pct\":100}",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 970,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "103e043061f039d9",
+        "type": "api-call-service",
+        "z": "c8cc9d79641ed0e3",
+        "name": "Включить ночной свет",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_on",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.yeelight_arwen_550c_nightlight"
+        ],
+        "data": "",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 970,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c864cf6262dd0acc",
+        "type": "api-call-service",
+        "z": "c8cc9d79641ed0e3",
+        "name": "Выключить свет",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_off",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.yeelight_arwen_550c"
+        ],
+        "data": "",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 950,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "27b2f011b6a9e250",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "c8cc9d79641ed0e3",
+        "name": "",
+        "x": 805,
+        "y": 140,
+        "wires": [
+            [
+                "70a56ba12c0d2f25"
+            ],
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "c9244fb613ea05f6",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "c8cc9d79641ed0e3",
+        "name": "",
+        "x": 805,
+        "y": 220,
+        "wires": [
+            [
+                "c864cf6262dd0acc"
+            ],
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "1454792633b9e5fe",
+        "type": "switch",
+        "z": "c8cc9d79641ed0e3",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "single_left",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "single_right",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "double_right",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "double_both",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 4,
+        "x": 310,
+        "y": 420,
+        "wires": [
+            [
+                "ece6a588b2079a26"
+            ],
+            [
+                "6d7b5aadd13001d3"
+            ],
+            [
+                "7b4125382d0e19ab"
+            ],
+            [
+                "369278db14275f9e"
+            ]
+        ]
+    },
+    {
+        "id": "6d7b5aadd13001d3",
+        "type": "api-current-state",
+        "z": "c8cc9d79641ed0e3",
+        "name": "Выключено ночное освещение?",
+        "server": "7968c6b6.08c848",
+        "version": 3,
+        "outputs": 2,
+        "halt_if": "false",
+        "halt_if_type": "bool",
+        "halt_if_compare": "is",
+        "entity_id": "light.yeelight_arwen_550c_nightlight",
+        "state_type": "habool",
+        "blockInputOverrides": false,
+        "outputProperties": [],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 620,
+        "y": 340,
+        "wires": [
+            [
+                "70d36a757fbeb711"
+            ],
+            [
+                "95e56719662bd15e"
+            ]
+        ]
+    },
+    {
+        "id": "70d36a757fbeb711",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "c8cc9d79641ed0e3",
+        "name": "",
+        "x": 805,
+        "y": 300,
+        "wires": [
+            [
+                "103e043061f039d9"
+            ],
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "85c0e29c1c94ced3",
+        "type": "api-call-service",
+        "z": "c8cc9d79641ed0e3",
+        "name": "Выключить ночной свет",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_off",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.yeelight_arwen_550c_nightlight"
+        ],
+        "data": "",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 970,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "95e56719662bd15e",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "c8cc9d79641ed0e3",
+        "name": "",
+        "x": 805,
+        "y": 380,
+        "wires": [
+            [
+                "85c0e29c1c94ced3"
+            ],
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "7b4125382d0e19ab",
+        "type": "api-current-state",
+        "z": "c8cc9d79641ed0e3",
+        "name": "Выключена подсветка?",
+        "server": "7968c6b6.08c848",
+        "version": 3,
+        "outputs": 2,
+        "halt_if": "false",
+        "halt_if_type": "bool",
+        "halt_if_compare": "is",
+        "entity_id": "light.yeelight_arwen_550c_ambilight",
+        "state_type": "habool",
+        "blockInputOverrides": false,
+        "outputProperties": [],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 650,
+        "y": 500,
+        "wires": [
+            [
+                "8b096059eb1f264f"
+            ],
+            [
+                "903ab854935ec18d"
+            ]
+        ]
+    },
+    {
+        "id": "8b096059eb1f264f",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "c8cc9d79641ed0e3",
+        "name": "",
+        "x": 805,
+        "y": 460,
+        "wires": [
+            [
+                "be05d5f92ac6d8f5"
+            ],
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "903ab854935ec18d",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "c8cc9d79641ed0e3",
+        "name": "",
+        "x": 805,
+        "y": 540,
+        "wires": [
+            [
+                "d0a30865eb80a1a9"
+            ],
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "be05d5f92ac6d8f5",
+        "type": "api-call-service",
+        "z": "c8cc9d79641ed0e3",
+        "name": "Включить подсветку",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_on",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.yeelight_arwen_550c_ambilight"
+        ],
+        "data": "{\"rgb_color\":[255,128,0],\"brightness_pct\":100}",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 960,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d0a30865eb80a1a9",
+        "type": "api-call-service",
+        "z": "c8cc9d79641ed0e3",
+        "name": "Выключить подсветкусвет",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "light",
+        "service": "turn_off",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "light.yeelight_arwen_550c_ambilight"
+        ],
+        "data": "",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 980,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a4a9df36441bc2e2",
+        "type": "api-call-service",
+        "z": "c8cc9d79641ed0e3",
+        "name": "Выключить питание освещения",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "switch",
+        "service": "turn_off",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "switch.0x54ef4410004da26c_right",
+            "switch.0x54ef4410004da26c_left"
+        ],
+        "data": "",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 720,
+        "y": 620,
+        "wires": [
+            [
+                "1257566bac81d6bd"
+            ]
+        ]
+    },
+    {
+        "id": "369278db14275f9e",
+        "type": "subflow:fb9ffeb46b14d217",
+        "z": "c8cc9d79641ed0e3",
+        "name": "",
+        "x": 525,
+        "y": 640,
+        "wires": [
+            [
+                "a4a9df36441bc2e2"
+            ],
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "1257566bac81d6bd",
+        "type": "delay",
+        "z": "c8cc9d79641ed0e3",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 950,
+        "y": 620,
+        "wires": [
+            [
+                "5f9f3f29f641f540"
+            ]
+        ]
+    },
+    {
+        "id": "5f9f3f29f641f540",
+        "type": "api-call-service",
+        "z": "c8cc9d79641ed0e3",
+        "name": "Включить питание освещения",
+        "server": "7968c6b6.08c848",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "switch",
+        "service": "turn_on",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [
+            "switch.0x54ef4410004da26c_right",
+            "switch.0x54ef4410004da26c_left"
+        ],
+        "data": "",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1170,
+        "y": 620,
+        "wires": [
             []
         ]
     }
